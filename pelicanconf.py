@@ -39,6 +39,7 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
+FEED_ALL_RSS = 'feeds/all.rss.xml'
 
 ADD_THIS_ID = 'ra-5a34c2ac2c1ffc84'
 DISQUS_SITENAME = 'bittenbybypthon'
