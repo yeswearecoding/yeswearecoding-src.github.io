@@ -46,14 +46,15 @@ DISQUS_SITENAME = 'bittenbybypthon'
 GOOGLE_ANALYTICS = 'UA-111329786-1'
 
 # Blogroll
-LINKS = (('<i class="fa fa-envelope-o" aria-hidden="true" fa-3x></i> Email', 'mailto:yeswearecoding@gmail.com'),
-        ('<i class="fa fa-github" aria-hidden="true" fa-3x></i> Github', 'https://github.com/yeswearecoding'),
-        ('<i class="fa fa-codepen" aria-hidden="true"></i> Hackerrank', 'https://www.hackerrank.com/yeswearecoding'),)
+# LINKS = (('<i class="fa fa-envelope-o" aria-hidden="true" fa-3x></i> Email', 'mailto:yeswearecoding@gmail.com'),
+#         ('<i class="fa fa-github" aria-hidden="true" fa-3x></i> Github', 'https://github.com/yeswearecoding'),
+#         ('<i class="fa fa-codepen" aria-hidden="true"></i> Hackerrank', 'https://www.hackerrank.com/yeswearecoding'),)
 #         ('You can modify those links in your config file', '#'),)
 
 # Social widget
-#SOCIAL = (('You can add links in your config file', '#'),
-#          ('Another social link', '#'),)
+SOCIAL = (('envelope-o', 'mailto:yeswearecoding@gmail.com'),
+            ('github', 'https://github.com/yeswearecoding'),
+            ('rss', 'http://www.bittenbypython.com/feeds/all.rss.xml'),)
 
 MENUITEMS = (('Categories', '/categories.html'),
              ('Tags', '/tags.html'),)
