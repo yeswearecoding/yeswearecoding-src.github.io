@@ -19,7 +19,12 @@ PLUGIN_PATHS =['../plugins']
 PLUGINS = ['i18n_subsites', 'ipynb.markup']
 IPYNB_IGNORE_CSS = True
 JINJA_EXTENSIONS = ['jinja2.ext.i18n']
-MARKDOWN = {'extensions': ['toc']}
+MARKDOWN = {
+    'extensions': ['toc'],
+    'extension_configs': {
+        'markdown.extensions.tables':{},
+    }
+}
 
 DEFAULT_LANG = 'fr'
 OG_LOCALE = 'fr_FR'
