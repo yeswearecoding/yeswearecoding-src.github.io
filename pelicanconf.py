@@ -16,7 +16,7 @@ TIMEZONE = 'Europe/Paris'
 
 MARKUP = ('md', 'ipynb')
 PLUGIN_PATHS =['../plugins']
-PLUGINS = ['i18n_subsites', 'ipynb.markup']
+PLUGINS = ['i18n_subsites', 'ipynb.markup', 'extract_toc']
 IPYNB_IGNORE_CSS = True
 JINJA_EXTENSIONS = ['jinja2.ext.i18n']
 
