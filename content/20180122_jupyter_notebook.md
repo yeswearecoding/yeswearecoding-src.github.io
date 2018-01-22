@@ -1,4 +1,13 @@
-# Comprendre et utiliser les *notebooks* **Jupyter**
+Title: Comment et pourquoi utiliser les notebook Jupyter
+Date: 2018-01-22 18:16
+Modified: 2018-01-22 18:16
+Category: notebook
+Tags: notebook, jupyter
+Slug: comprendre-et-utiliser-notebook-jupyter
+Authors: YesWeAreCoding
+Summary: Comment et pourquoi utiliser les notebook Jupyter
+
+# Comment et pourquoi utiliser les *notebooks* **Jupyter**
 
 ---
 Tables des matières
