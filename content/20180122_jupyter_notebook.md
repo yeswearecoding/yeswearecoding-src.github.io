@@ -10,7 +10,8 @@ Summary: Comment et pourquoi utiliser les notebook Jupyter
 # Comment et pourquoi utiliser les *notebooks* **Jupyter**
 
 ---
-Tables des matières
+Sommaire
+
 [TOC]
 
 ---
@@ -20,7 +21,7 @@ Hello !
 
 Vous avez peut être entendu parler des *notebook* de [Jupyter](http://jupyter.org/) et si comme moi, vous vous êtes demandé à quoi bon cela peut bien servir,
 je vais vous aider à y voir un peu plus clair.  
-Déjà, à quoi ils ressemblent ? Vous pouvez trouver une large [gallerie d'exemple ici](http://nb.bianp.net/sort/views/).  
+Déjà, à quoi ils ressemblent ? Vous pouvez trouver une large [galerie d'exemple ici](http://nb.bianp.net/sort/views/).  
 Voyons un peu ce que on peut en faire.
 
 ## Cas d'utilisation
@@ -60,11 +61,16 @@ via ces *kernels*. Vous trouverez ici la [liste de ces noyaux](https://github.co
 A partir de là, c'est assez simple. Vous cliquez sur une cellule vide, vous tapez votre code puis vous cliquez sur le bouton **Run**. Il y a
 quelques raccourcis clavier qui permettent de se simplifier la vie, je vous fait un petit *cheat sheet* pour tout avoir sous la main :  
 
-| Raccourci | Action | Exemple
+| Raccourci | Action | Exemple / Résultat |
 | - | - | - |
 | `shift` + `enter` | exécute le contenu d'une cellule puis<br>crée une nouvelle cellule vide au dessous | |
 | `alt` + `enter` | exécute le contenu d'une cellule<br>sans en créer de nouvelle | | 
-| `!` | exécute une commande shell | `!pip install numpy` |
+| `tab` | autocomplétion | |
+| `shift` + `tab` | affiche la documentation de la fonction | |
+| `click gauche sur une cellule` | réduit la taille de la cellule | |
+| `double click`| réduit entièrement la cellule | |
+| `!` + `cmd`| exécute une commande shell | `!pip install numpy` |
+| `%%bash`| le contenu de la cellule sera exécuté<br>en tant que script shell | |
 | `%%time` | mesure le temps d'exécution | `CPU times: user 1.23 ms, sys: 4.82 ms, total: 6.05 ms` |
 
 
