@@ -69,11 +69,8 @@
     });
   </script>
   {% endif %}
-
-  <script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us17.list-manage.com","uuid":"9fd71c4e6d18e21587cd56214","lid":"95690702fb"}) })</script>
-
-
 </head>
+
 <body>
   {% if GOOGLE_TAG_MANAGER %}
     {% include "partial/gtm.html" %}
@@ -110,6 +107,8 @@
         <li><a class="sc-{{ name }}" href="{{ link }}" target="_blank"><i class="fa fa-{{ name }}"></i></a></li>
         {% endfor %}
       </ul>
+
+      <!-- Paypal -->
       <br>
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
         <input type="hidden" name="cmd" value="_s-xclick">

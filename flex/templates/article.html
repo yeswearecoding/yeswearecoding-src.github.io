@@ -36,8 +36,28 @@
   {% endif %}
 
   <div>
+
+    <!-- Mailjet -->
+
+    <data data-token="25119b9c747c0fd253316a997703757e" class="mj-w-data" data-apikey="2Nqj" data-w-id="5ih" data-lang="fr_FR" data-base="https://app.mailjet.com" data-width="640" data-height="410" data-statics="statics"></data>
+
+    <div class="mj-w-button mj-w-btn" data-token="25119b9c747c0fd253316a997703757e" style="font-family: Ubuntu, Helvetica; color: white; padding: 0 25px; background-color: #f0622b; text-align: center; vertical-align: middle; display: inline-block; border-radius: 3px; margin: 0 auto;">
+        <div style="display: table; height: 45px;">
+            <div style="display: table-cell; vertical-align: middle;">
+                <div class="mj-w-button-content" style="font-family:Ubuntu, Helvetica; display: inline-block; text-align: center; font-size: 13px; vertical-align: middle;"><b>ABONNEZ-VOUS À LA NEWSLETTER !</b></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://app.mailjet.com/statics/js/widget.modal.js"></script>
+
+    <!-- End Mailjet -->
+
     {{ article.content }}
   </div>
+
+
+
   <div class="tag-cloud">
     <p>
       {% if article.tags %}
