@@ -16,7 +16,7 @@ TIMEZONE = 'Europe/Paris'
 
 MARKUP = ('md', 'ipynb')
 PLUGIN_PATHS =['../plugins']
-PLUGINS = ['i18n_subsites', 'ipynb.markup']
+PLUGINS = ['i18n_subsites', 'ipynb.markup', 'pelican_gist']
 IPYNB_IGNORE_CSS = True
 JINJA_EXTENSIONS = ['jinja2.ext.i18n']
 MARKDOWN = {
@@ -67,5 +67,5 @@ MENUITEMS = (('Categories', '/categories.html'),
 
 DEFAULT_PAGINATION = 10
 
-PYGMENTS_STYLE = 'monokai'
+# PYGMENTS_STYLE = 'perldoc'
 
