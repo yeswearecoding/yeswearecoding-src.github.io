@@ -20,11 +20,12 @@ PLUGINS = ['i18n_subsites', 'ipynb.markup', 'pelican_gist']
 IPYNB_IGNORE_CSS = True
 JINJA_EXTENSIONS = ['jinja2.ext.i18n']
 MARKDOWN = {
-    'extensions': ['toc'],
+    'extensions': ['toc', 'codehilite(noclasses=True, pygments_style=perldoc)', 'extra'],
     'extension_configs': {
         'markdown.extensions.tables':{},
     }
 }
+# MD_EXTENSIONS = ['codehilite(noclasses=True, pygments_style=native)', 'extra']
 
 DEFAULT_LANG = 'fr'
 OG_LOCALE = 'fr_FR'
@@ -67,5 +68,5 @@ MENUITEMS = (('Categories', '/categories.html'),
 
 DEFAULT_PAGINATION = 10
 
-# PYGMENTS_STYLE = 'perldoc'
+PYGMENTS_STYLE = 'perldoc'
 
