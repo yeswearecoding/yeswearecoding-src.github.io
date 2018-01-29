@@ -25,7 +25,6 @@ MARKDOWN = {
         'markdown.extensions.tables':{},
     }
 }
-# MD_EXTENSIONS = ['codehilite(noclasses=True, pygments_style=native)', 'extra']
 
 DEFAULT_LANG = 'fr'
 OG_LOCALE = 'fr_FR'
