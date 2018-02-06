@@ -108,3 +108,7 @@ Les incontournables Sam et Max :
 [Comprendre les décorateurs Python pas à pas (partie 1)](http://sametmax.com/comprendre-les-decorateurs-python-pas-a-pas-partie-1/)  
 [Comprendre les décorateurs Python pas à pas (partie 2)](http://sametmax.com/comprendre-les-decorateur-python-pas-a-pas-partie-2/)
 
+Un article (en anglais) qui donne plus de détails et les bonnes pratiques :  
+[The decorators they won't tell you about](https://github.com/hchasestevens/hchasestevens.github.io/blob/master/notebooks/the-decorators-they-wont-tell-you-about.ipynb)
+
+Bon code !
