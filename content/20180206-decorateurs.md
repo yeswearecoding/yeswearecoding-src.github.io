@@ -30,7 +30,7 @@ Exemple :
 
 # une fonction de toute beauté
 def ma_fonction():
-	print('hello toto')
+    print('hello toto')
 ```
 
 Comme elle se comporte comme un objet, je peux la stocker dans une variable puis l’appeler en ajoutant les parenthèses lors de l'appel de ma variable :
