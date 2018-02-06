@@ -66,12 +66,12 @@ Codons un décorateur qui a pour fonction de faire un *timer* pour savoir combie
 import time
 
 def timer(une_fonction):
-	def osef(parametres):
-		debut = time.time()
-		res = une_fonction(parametres)
-		print("On a mis {:.1f} secondes".format(time.time()-debut))
-		return res
-	return osef
+    def osef(parametres):
+        debut = time.time()
+        res = une_fonction(parametres)
+        print("On a mis {:.1f} secondes".format(time.time()-debut))
+        return res
+    return osef
 ```
 
 Définissons une fonction pour laquelle on souhaite connaitre son temps d'exécution :
@@ -95,7 +95,7 @@ N'est-ce pas magnifique ? C'est merveilleux Jean-Pierre.
 
 Plus sérieusement, nous avons vu comment on construit un décorateur assez simple et comment il s'utilise. Maintenant que vous avez vu le principe, vous pourrez développer les vôtres facilement !
 
-Petite mise en garde : c'est comme tout, les décorateurs s'utilisent uniquement **quand c'est utile !!** Inutile d'étaler votre nouvelle connaissance juste pour le plaisir de coder :-) (bon, si un peu quand même histoire de s’entraîner)
+Petite mise en garde : c'est comme tout, les décorateurs s'utilisent uniquement **quand c'est utile !!** Inutile d'étaler votre nouvelle connaissance juste pour le plaisir de coder :-) (bon, si un peu quand même histoire de s’entraîner).
 
 # Pour aller plus loin
 
@@ -105,6 +105,6 @@ Je vous laisse admirer un magnifique décorateur issu du code de [Bottle](https:
 
 Les incontournables Sam et Max :
 
-[Comprendre les décorateurs Python pas à pas (partie 1)](http://sametmax.com/comprendre-les-decorateurs-python-pas-a-pas-partie-1/)
+[Comprendre les décorateurs Python pas à pas (partie 1)](http://sametmax.com/comprendre-les-decorateurs-python-pas-a-pas-partie-1/)  
 [Comprendre les décorateurs Python pas à pas (partie 2)](http://sametmax.com/comprendre-les-decorateur-python-pas-a-pas-partie-2/)
 
