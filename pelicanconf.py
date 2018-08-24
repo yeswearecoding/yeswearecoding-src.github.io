@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 AUTHOR = 'YesWeAreCoding'
 SITENAME = 'Bitten By Python'
 SITEURL = 'http://www.bittenbypython.com'
-#SITEURL = ''
 SITELOGO = 'theme/img/ninja.png'
 SITETITLE = 'Bitten By Python'
 SITEDESCRIPTION = 'Un (autre) blog sur Python'
@@ -18,7 +17,7 @@ MARKUP = ('md', 'ipynb')
 PLUGIN_PATHS =['../plugins']
 PLUGINS = ['i18n_subsites', 'ipynb.markup', 'pelican_gist']
 IPYNB_IGNORE_CSS = True
-JINJA_EXTENSIONS = ['jinja2.ext.i18n']
+JINJA_ENVIRONMENT = {'extensions' : ['jinja2.ext.i18n']}
 MARKDOWN = {
     'extensions': ['toc', 'codehilite(noclasses=True, pygments_style=perldoc)', 'extra'],
     'extension_configs': {
