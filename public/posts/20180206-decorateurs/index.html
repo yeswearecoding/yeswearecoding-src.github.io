@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr"><meta charset="utf-8"><meta name="generator" content="Hugo 0.68.1" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Comprendre les décorateurs&nbsp;&ndash;&nbsp;Bitten By Python</title><link rel="stylesheet" href="/css/core.min.37019add09db3448f4f8d319d9e60295261ece9e6d82818ca564941bcc343650d4b263f74f05ff2597100292863f7acf.css" integrity="sha384-NwGa3QnbNEj0&#43;NMZ2eYClSYezp5tgoGMpWSUG8w0NlDUsmP3TwX/JZcQApKGP3rP"><body>
+    <div class="base-body"><section id="header" class="site header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">Bitten By Python</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/"></a><a class="nav item" href="/tags/"></a></nav></div></span></div></section><div id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Comprendre les décorateurs</h1><p class="article date">6 February 2018</p></section><article class="article markdown-body"><p>Hello !</p>
+<p>Vous avez peut-être déjà rencontré lors de la consultation de code écrit par quelqu&rsquo;un d&rsquo;autre la présence d&rsquo;un <code>@</code> suivi d&rsquo;un nom juste avant la définition d&rsquo;une fonction et vous vous êtes posé la question &ldquo;à quoi cela peut-il bien servir ?&quot;.</p>
+<p>Voyons cela ensemble.</p>
+<h2 id="poser-les-bases">Poser les bases</h2>
+<p>En Python, les fonctions sont des <a href="https://fr.wikipedia.org/wiki/Objet_de_premi%C3%A8re_classe"target="_blank">Objet de première classe</a>, c&rsquo;est à dire qu&rsquo;elles se comporte comme n&rsquo;importe quel objet.</p>
+<p>Exemple :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python">
+<span class="c1"># une fonction de toute beauté</span>
+<span class="k">def</span> <span class="nf">ma_fonction</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;hello toto&#39;</span><span class="p">)</span>
+</code></pre></div><p>Comme elle se comporte comme un objet, je peux la stocker dans une variable puis l’appeler en ajoutant les parenthèses lors de l&rsquo;appel de ma variable :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tata</span> <span class="o">=</span> <span class="n">ma_fonction</span>
+</code></pre></div><p>vérifions son type :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">tata</span><span class="p">))</span>
+
+<span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">function</span><span class="s1">&#39;&gt;</span>
+</code></pre></div><p>je peux donc l’appeler : (notez bien l&rsquo;ajout des parenthèses)</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tata</span><span class="p">()</span>
+
+<span class="n">hello</span> <span class="n">toto</span>
+</code></pre></div><p>Magnifique. Génial. Bon, et on fait quoi maintenant que l&rsquo;on sait ça ?</p>
+<h2 id="appliquer">Appliquer</h2>
+<p>Les décorateurs sont souvent définis par des fonctions qui prennent des fonctions en arguments et qui retournent des fonctions. C&rsquo;est pas clair ? C&rsquo;est normal :-). Voyons un exemple simple. Il faut juste se dire qu&rsquo;un décorateur est quelque chose qui vient entourer une fonction (la décorer, telle l&rsquo;artiste qui décore un vase pour vous donner une image).</p>
+<p>Codons un décorateur qui a pour fonction de faire un <em>timer</em> pour savoir combien de temps la fonction décorée met à s&rsquo;exécuter.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">une_fonction</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">osef</span><span class="p">(</span><span class="n">parametres</span><span class="p">):</span>
+        <span class="n">debut</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">une_fonction</span><span class="p">(</span><span class="n">parametres</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;On a mis {:.1f} secondes&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">debut</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">res</span>
+    <span class="k">return</span> <span class="n">osef</span>
+</code></pre></div><p>Définissons une fonction pour laquelle on souhaite connaitre son temps d&rsquo;exécution :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@timer</span>
+<span class="k">def</span> <span class="nf">attendons</span><span class="p">(</span><span class="n">secondes</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">secondes</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div><p>Puis vérifions notre résultat :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">attendons</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">On</span> <span class="n">a</span> <span class="n">mis</span> <span class="mf">2.0</span> <span class="n">secondes</span>
+</code></pre></div><p>N&rsquo;est-ce pas magnifique ? C&rsquo;est merveilleux Jean-Pierre.</p>
+<p>Plus sérieusement, nous avons vu comment on construit un décorateur assez simple et comment il s&rsquo;utilise. Maintenant que vous avez vu le principe, vous pourrez développer les vôtres facilement !</p>
+<p>Petite mise en garde : c&rsquo;est comme tout, les décorateurs s&rsquo;utilisent uniquement <strong>quand c&rsquo;est utile !!</strong> Inutile d'étaler votre nouvelle connaissance juste pour le plaisir de coder :-) (bon, si un peu quand même histoire de s’entraîner).</p>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
+<p>Je vous laisse admirer un magnifique décorateur issu du code de <a href="https://bottlepy.org"target="_blank">Bottle</a> qui est un micro-framework Web qui tient en un seul fichier (j&rsquo;adore) :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+            <span class="n">callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="nb">apply</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">skip</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34; A decorator to bind a function to a request URL. Example::
+</span><span class="s2">            @app.route(&#39;/hello/&lt;name&gt;&#39;)
+</span><span class="s2">            def hello(name):
+</span><span class="s2">                return &#39;Hello </span><span class="si">%s</span><span class="s2">&#39; % name
+</span><span class="s2">        The ``&lt;name&gt;`` part is a wildcard. See :class:`Router` for syntax
+</span><span class="s2">        details.
+</span><span class="s2">        :param path: Request path or a list of paths to listen to. If no
+</span><span class="s2">            path is specified, it is automatically generated from the
+</span><span class="s2">            signature of the function.
+</span><span class="s2">        :param method: HTTP method (`GET`, `POST`, `PUT`, ...) or a list of
+</span><span class="s2">            methods to listen to. (default: `GET`)
+</span><span class="s2">        :param callback: An optional shortcut to avoid the decorator
+</span><span class="s2">            syntax. ``route(..., callback=func)`` equals ``route(...)(func)``
+</span><span class="s2">        :param name: The name for this route. (default: None)
+</span><span class="s2">        :param apply: A decorator or plugin or a list of plugins. These are
+</span><span class="s2">            applied to the route callback in addition to installed plugins.
+</span><span class="s2">        :param skip: A list of plugins, plugin classes or names. Matching
+</span><span class="s2">            plugins are not installed to this route. ``True`` skips all.
+</span><span class="s2">        Any additional keyword arguments are stored as route-specific
+</span><span class="s2">        configuration and passed to plugins (see :meth:`Plugin.apply`).
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">path</span><span class="p">):</span> <span class="n">path</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">path</span>
+    <span class="n">plugins</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="nb">apply</span><span class="p">)</span>
+    <span class="n">skiplist</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">skip</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">makelist</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="n">yieldroutes</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">verb</span> <span class="ow">in</span> <span class="n">makelist</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+                <span class="n">verb</span> <span class="o">=</span> <span class="n">verb</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="n">route</span> <span class="o">=</span> <span class="n">Route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">verb</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span>
+                                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                                <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span>
+                                <span class="n">skiplist</span><span class="o">=</span><span class="n">skiplist</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_route</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">callback</span>
+
+    <span class="k">return</span> <span class="n">decorator</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span> <span class="k">if</span> <span class="n">callback</span> <span class="k">else</span> <span class="n">decorator</span>
+</code></pre></div><p>Les incontournables Sam et Max :</p>
+<p><a href="http://sametmax.com/comprendre-les-decorateurs-python-pas-a-pas-partie-1/"target="_blank">Comprendre les décorateurs Python pas à pas (partie 1)</a><br>
+<a href="http://sametmax.com/comprendre-les-decorateur-python-pas-a-pas-partie-2/"target="_blank">Comprendre les décorateurs Python pas à pas (partie 2)</a></p>
+<p>Un article (en anglais) qui donne plus de détails et les bonnes pratiques :<br>
+<a href="https://github.com/hchasestevens/hchasestevens.github.io/blob/master/notebooks/the-decorators-they-wont-tell-you-about.ipynb"target="_blank">The decorators they won&rsquo;t tell you about</a></p>
+<p>Bon code !</p>
+</article></div><section class="article navigation"><p><a class="link" href="/posts/20180824_micropython-esp32/"><span class="li">&larr;</span>A la découverte de MicroPython sur ESP32</a></p><p><a class="link" href="/posts/20180123-vim/"><span class="li">&rarr;</span>Comment (enfin!) utiliser Vim</a></p></section><section class="article discussion"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "bittenbybypthon" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></section></div><section id="footer" class="footer"><div class="footer-wrap">
+    <p class="copyright">Bitten By Python<p>Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats.</p>
+    </p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-111329786-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</div>
+</body>
+
+</html>

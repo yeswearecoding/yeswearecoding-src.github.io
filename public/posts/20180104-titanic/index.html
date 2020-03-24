@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="fr"><meta charset="utf-8"><meta name="generator" content="Hugo 0.68.1" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Titanic&nbsp;&ndash;&nbsp;Bitten By Python</title><link rel="stylesheet" href="/css/core.min.37019add09db3448f4f8d319d9e60295261ece9e6d82818ca564941bcc343650d4b263f74f05ff2597100292863f7acf.css" integrity="sha384-NwGa3QnbNEj0&#43;NMZ2eYClSYezp5tgoGMpWSUG8w0NlDUsmP3TwX/JZcQApKGP3rP"><body>
+    <div class="base-body"><section id="header" class="site header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">Bitten By Python</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/"></a><a class="nav item" href="/tags/"></a></nav></div></span></div></section><div id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Titanic</h1><p class="article date">4 January 2018</p></section><article class="article markdown-body"><div class="jupyter-cell markdown">
+<p>Hello,</p>
+<p>Après avoir débuté la lecture de <a href="https://www.amazon.fr/gp/product/210076540X/ref=as_li_tl?ie=UTF8&amp;camp=1642&amp;creative=6746&amp;creativeASIN=210076540X&amp;linkCode=as2&amp;tag=deslivrepourm-21&amp;linkId=a6c3ed7805af63613aaef46c12c5d31d%22"target="_blank">Machine Learning avec Scikit-Learn</a>, j&rsquo;ai pris au mot l&rsquo;auteur dès la fin du deuxième chapitre et j&rsquo;ai tenté d&rsquo;appliquer la méthode sur des données &ldquo;réelles&rdquo;.<br>
+J&rsquo;ai donc été sur le site <a href="https://www.kaggle.com/c/titanic"target="_blank">Kaggle</a> qui propose (entre autre) un jeu de données pour débutant autour du Titanic, le but est de prédire les survivants. Bon, on se retrousse les manches, c&rsquo;est parti !</p>
+</div>
+<div class="jupyter-cell markdown">
+<h1 id="découverte-des-données">Découverte des données</h1>
+<h2 id="récupération-des-informations">Récupération des informations</h2>
+<p>L&rsquo;ensemble des données est fourni dans deux fichiers CSV : <em>train.csv</em> pour nous permettre d&rsquo;entrainer un modèle et <em>test.csv</em> qui nous permettra de valider (ou non) notre algorithme.</p>
+<p>La librairie <a href="https://pandas.pydata.org/"target="_blank">Pandas</a> nous permet facilement de charger des fichiers CSV :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">titanic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;train.csv&#39;</span><span class="p">)</span>
+</code></pre></div></div>
+</div>
+<div class="jupyter-cell markdown">
+<p>Regardons ce que contient notre fichier :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">titanic</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="jupyter-cell markdown">
+<p>Les données semblent cohérentes, regardons cela un peu plus en détails.</p>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="description-des-données">Description des données</h2>
+<p>On utilise la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.info.html"target="_blank">info</a> qui nous donne un résumé des différentes variables :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">titanic</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div></div>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 12 columns):
+PassengerId    891 non-null int64
+Survived       891 non-null int64
+Pclass         891 non-null int64
+Name           891 non-null object
+Sex            891 non-null object
+Age            714 non-null float64
+SibSp          891 non-null int64
+Parch          891 non-null int64
+Ticket         891 non-null object
+Fare           891 non-null float64
+Cabin          204 non-null object
+Embarked       889 non-null object
+dtypes: float64(2), int64(5), object(5)
+memory usage: 83.6+ KB
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p>Chaque valeur représente :</p>
+<ul>
+<li>PassengerID : un numéro d&rsquo;identifiant</li>
+<li>Survived : 0 si ce passager n&rsquo;a pas survécu, 1 dans le cas contraire</li>
+<li>Pclass : la classe dans laquelle ce passager a voyagé (1, 2 ou 3)</li>
+<li>Name : le nom</li>
+<li>Sex : femme ou homme (male ou female)</li>
+<li>Age : l'âge (en années)</li>
+<li>SibSp : le nombre de frère, soeur et/ou épouse à bord</li>
+<li>Parch : le nombre de parent et/ou d&rsquo;enfant à bord</li>
+<li>Ticket : numéro du ticket</li>
+<li>Fare : prix du billet</li>
+<li>Cabin : numéro de cabine</li>
+<li>Embarked : port d&rsquo;embarquement(C = Cherbourg, Q = Queenstown, S = Southampton)</li>
+</ul>
+<p>Il y a quelques valeurs qui ne sont pas numériques (<em>Name</em>, <em>Sex</em>, <em>Ticket</em>, <em>Cabin</em> et <em>Embarked</em>). Il faut donc soit s&rsquo;en séparer, soit les convertir. Ici, je pense me séparer de toutes (ce choix est tout à fait arbitraire, j&rsquo;estime que ces données ne sont pas pertinentes pour déterminer si oui ou non ce passager survivra) sauf la variable <em>Sex</em> que je vais convertir (plus loin) en une variable binaire (0 ou 1), en associant par exemple female=0 et male=1.<br>
+<em>Edit</em> : au final, ca sera un peu différent avec une colonne pour <em>male</em> (valeur à 1 si c&rsquo;est un homme, 0 sinon) et une autre pour <em>female</em> avec le même principe.</p>
+<p>Il y a également un autre problème. Il y a 891 passagers répertoriés mais pour la variable <em>Age</em>, il n&rsquo;y a que 714 valeurs. Il va falloir trouver une solution pour remplir les données manquantes car les algorithmes de machine learning (ML) ne peuvent pas travailler sur des données vides.</p>
+<p>Examinons un peu plus nos données avec la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.describe.html"target="_blank">describe</a> qui nous donne un petit tableau récapitulatif de quelques données statistiques de base :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">titanic</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>714.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>446.000000</td>
+      <td>0.383838</td>
+      <td>2.308642</td>
+      <td>29.699118</td>
+      <td>0.523008</td>
+      <td>0.381594</td>
+      <td>32.204208</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>257.353842</td>
+      <td>0.486592</td>
+      <td>0.836071</td>
+      <td>14.526497</td>
+      <td>1.102743</td>
+      <td>0.806057</td>
+      <td>49.693429</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.420000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>223.500000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>20.125000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>7.910400</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>446.000000</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>28.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.454200</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>668.500000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>38.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>31.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>891.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>80.000000</td>
+      <td>8.000000</td>
+      <td>6.000000</td>
+      <td>512.329200</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="jupyter-cell markdown">
+<p>On remarque tout d&rsquo;abord que la fonction élimine toutes les variables non-numériques.<br>
+Autre point, pour <em>Fare</em>, il semble y avoir une valeur maximale très forte (512,3292) au regard de la moyenne (<em>mean</em>) qui est de 32,204. Il faudra donc voir s&rsquo;il s&rsquo;agit d&rsquo;une fausse valeur et si oui, comment on la traite (élimination de celle-ci, remplacement par la moyenne ?).</p>
+</div>
+<div class="jupyter-cell markdown">
+<h3 id="histogrammes-des-données">Histogrammes des données</h3>
+<p>Pour avoir une vision graphique des valeurs, nous allons utiliser la librairie <a href="https://matplotlib.org/"target="_blank">Matplotlib</a> pour afficher les histogrammes des valeurs numériques :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># chargement de la librairie dans un notebook Jupyter</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>  
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">titanic</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><a target="_blank" rel="noopener noreferrer" 
+  href="./index_12_0.png"><img  src="./index_12_0.png"
+        alt="png"/></a></p>
+</div>
+<div class="jupyter-cell markdown">
+<h4 id="quelques-remarques-sur-ces-graphiques">Quelques remarques sur ces graphiques</h4>
+<ol>
+<li>Les âges semblent répartis à peu près de façon gaussienne, on notera toutefois le pic de valeur vers 0 : s&rsquo;agit-il d&rsquo;une valeur par défaut ou il y un forte proportion de nouveaux nés dans nos données ?</li>
+<li>Concernant les tarifs (<em>Fare</em>), on constate de nouveau un pic très important au tout début, ce qui semble écraser les autres valeurs.</li>
+<li>Il y a une forme de similarité entre <em>Parch</em> et <em>SibSp</em>, il y a peut-être une possibilité de simplifier ces valeurs ?</li>
+</ol>
+<p>Pour essayer de répondre à la question 1, utilisons la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.sort_values.html"target="_blank">sort_values</a> à laquelle on va lui demander de nous trier les données selon l'âge (paramètre <em>by=</em>), dans l&rsquo;ordre croissant (paramètre <em>ascending=True</em>) et seulement les 10 premières valeurs (<em>[:10]</em>, fonctionne comme le <em>slicing</em> Python) :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">titanic</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></div></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>803</th>
+      <td>804</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Thomas, Master. Assad Alexander</td>
+      <td>male</td>
+      <td>0.42</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2625</td>
+      <td>8.5167</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>755</th>
+      <td>756</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Hamalainen, Master. Viljo</td>
+      <td>male</td>
+      <td>0.67</td>
+      <td>1</td>
+      <td>1</td>
+      <td>250649</td>
+      <td>14.5000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>644</th>
+      <td>645</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Baclini, Miss. Eugenie</td>
+      <td>female</td>
+      <td>0.75</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2666</td>
+      <td>19.2583</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>469</th>
+      <td>470</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Baclini, Miss. Helene Barbara</td>
+      <td>female</td>
+      <td>0.75</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2666</td>
+      <td>19.2583</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>79</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Caldwell, Master. Alden Gates</td>
+      <td>male</td>
+      <td>0.83</td>
+      <td>0</td>
+      <td>2</td>
+      <td>248738</td>
+      <td>29.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>831</th>
+      <td>832</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Richards, Master. George Sibley</td>
+      <td>male</td>
+      <td>0.83</td>
+      <td>1</td>
+      <td>1</td>
+      <td>29106</td>
+      <td>18.7500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>305</th>
+      <td>306</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>male</td>
+      <td>0.92</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>827</th>
+      <td>828</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Mallet, Master. Andre</td>
+      <td>male</td>
+      <td>1.00</td>
+      <td>0</td>
+      <td>2</td>
+      <td>S.C./PARIS 2079</td>
+      <td>37.0042</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>381</th>
+      <td>382</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Nakid, Miss. Maria ("Mary")</td>
+      <td>female</td>
+      <td>1.00</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2653</td>
+      <td>15.7417</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>165</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Panula, Master. Eino Viljami</td>
+      <td>male</td>
+      <td>1.00</td>
+      <td>4</td>
+      <td>1</td>
+      <td>3101295</td>
+      <td>39.6875</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="jupyter-cell markdown">
+<p>Tout compte fait, il n&rsquo;y a pas d&rsquo;incohérence, juste une forte proportion de nouveaux nés à bord.</p>
+<p>Dans le même ordre d&rsquo;idée, regardons les données sur le tarif des billets :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">titanic</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Fare&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></div></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>258</th>
+      <td>259</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Ward, Miss. Anna</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17755</td>
+      <td>512.3292</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>737</th>
+      <td>738</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Lesurer, Mr. Gustave J</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17755</td>
+      <td>512.3292</td>
+      <td>B101</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>679</th>
+      <td>680</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cardeza, Mr. Thomas Drake Martinez</td>
+      <td>male</td>
+      <td>36.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>PC 17755</td>
+      <td>512.3292</td>
+      <td>B51 B53 B55</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>89</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Fortune, Miss. Mabel Helen</td>
+      <td>female</td>
+      <td>23.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Charles Alexander</td>
+      <td>male</td>
+      <td>19.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>341</th>
+      <td>342</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Fortune, Miss. Alice Elizabeth</td>
+      <td>female</td>
+      <td>24.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>438</th>
+      <td>439</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Mark</td>
+      <td>male</td>
+      <td>64.0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>311</th>
+      <td>312</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Ryerson, Miss. Emily Borie</td>
+      <td>female</td>
+      <td>18.0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>PC 17608</td>
+      <td>262.3750</td>
+      <td>B57 B59 B63 B66</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>742</th>
+      <td>743</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Ryerson, Miss. Susan Parker "Suzette"</td>
+      <td>female</td>
+      <td>21.0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>PC 17608</td>
+      <td>262.3750</td>
+      <td>B57 B59 B63 B66</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>119</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Baxter, Mr. Quigg Edmond</td>
+      <td>male</td>
+      <td>24.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>PC 17558</td>
+      <td>247.5208</td>
+      <td>B58 B60</td>
+      <td>C</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="jupyter-cell markdown">
+<p>Finalement, c&rsquo;est cohérent : les tarifs les plus élevés sont ceux des passagers de la première classe.</p>
+<p>Passons à l'étape suivante !</p>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="recherche-de-corrélations">Recherche de corrélations</h2>
+<p>Le but est ici de voir s&rsquo;il n&rsquo;existe pas de corrélations entre différentes valeurs. On utilise pour cela la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html"target="_blank">corr</a> :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">titanic</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</code></pre></div></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PassengerId</th>
+      <td>1.000000</td>
+      <td>-0.005007</td>
+      <td>-0.035144</td>
+      <td>0.036847</td>
+      <td>-0.057527</td>
+      <td>-0.001652</td>
+      <td>0.012658</td>
+    </tr>
+    <tr>
+      <th>Survived</th>
+      <td>-0.005007</td>
+      <td>1.000000</td>
+      <td>-0.338481</td>
+      <td>-0.077221</td>
+      <td>-0.035322</td>
+      <td>0.081629</td>
+      <td>0.257307</td>
+    </tr>
+    <tr>
+      <th>Pclass</th>
+      <td>-0.035144</td>
+      <td>-0.338481</td>
+      <td>1.000000</td>
+      <td>-0.369226</td>
+      <td>0.083081</td>
+      <td>0.018443</td>
+      <td>-0.549500</td>
+    </tr>
+    <tr>
+      <th>Age</th>
+      <td>0.036847</td>
+      <td>-0.077221</td>
+      <td>-0.369226</td>
+      <td>1.000000</td>
+      <td>-0.308247</td>
+      <td>-0.189119</td>
+      <td>0.096067</td>
+    </tr>
+    <tr>
+      <th>SibSp</th>
+      <td>-0.057527</td>
+      <td>-0.035322</td>
+      <td>0.083081</td>
+      <td>-0.308247</td>
+      <td>1.000000</td>
+      <td>0.414838</td>
+      <td>0.159651</td>
+    </tr>
+    <tr>
+      <th>Parch</th>
+      <td>-0.001652</td>
+      <td>0.081629</td>
+      <td>0.018443</td>
+      <td>-0.189119</td>
+      <td>0.414838</td>
+      <td>1.000000</td>
+      <td>0.216225</td>
+    </tr>
+    <tr>
+      <th>Fare</th>
+      <td>0.012658</td>
+      <td>0.257307</td>
+      <td>-0.549500</td>
+      <td>0.096067</td>
+      <td>0.159651</td>
+      <td>0.216225</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="jupyter-cell markdown">
+<p>On va s&rsquo;intéresser principalement à la colonne <em>Survived</em> puisqu&rsquo;il s&rsquo;agit de notre variable à expliquer. Il y un coefficient de corrélation qui semble intéressant avec <em>Pclass</em> (-0,33), <em>Fare</em> (0,25) et peut-être avec <em>Parch</em> ou <em>Age</em>. Pour regarder cela graphiquement, on utilise la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/visualization.html#scatter-matrix-plot"target="_blank">scatter_matrix</a> du module <em>plotting</em> de <em>Pandas</em> :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">pandas.plotting</span> <span class="kn">import</span> <span class="n">scatter_matrix</span>
+
+<span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">,</span> <span class="s1">&#39;Fare&#39;</span><span class="p">,</span> <span class="s1">&#39;Parch&#39;</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">]</span>
+<span class="n">scatter_matrix</span><span class="p">(</span><span class="n">titanic</span><span class="p">[</span><span class="n">attrs</span><span class="p">],</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+</code></pre></div></div>
+<pre><code>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x10864a2e8&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x108631710&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x1086aea58&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107c7ce10&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x107c9b2e8&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107c9ba90&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107d3be10&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107e8e0b8&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x108694518&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x1086ce6d8&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107cad5f8&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x108744ac8&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x108662048&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107a73e10&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107c4c0b8&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x107ae2438&gt;]], dtype=object)
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" 
+  href="./index_21_1.png"><img  src="./index_21_1.png"
+        alt="png"/></a></p>
+</div>
+<div class="jupyter-cell markdown">
+<p>Bon, décevant :(. La colonne <em>Pclass</em> contient que des 1, 2 ou 3, ce qui rassemble les données sur 3 colonnes. A ce stade, je n&rsquo;en déduit rien qui puisse m&rsquo;aider à prédire si oui ou non cette personne survivra.<br>
+Il est de temps de passer à la préparation des données afin de pouvoir automatiser tout le processus. Ceci permet dans le cas où des nouvelles données apparaissent, de les mettre directement en forme pour l&rsquo;algorithme.</p>
+</div>
+<div class="jupyter-cell markdown">
+<h1 id="préparation-des-données">Préparation des données</h1>
+<p>Puisque nous allons utiliser un algorithme d&rsquo;apprentissage supervisé (puisque nous connaissons les valeurs à obtenir), il nous faut séparer les <em>labels</em> (la réponse attendu en fait) des données :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">labels</span> <span class="o">=</span> <span class="n">titanic</span><span class="p">[</span><span class="s2">&#34;Survived&#34;</span><span class="p">]</span>
+</code></pre></div></div>
+</div>
+<div class="jupyter-cell markdown">
+<p>Il faut maintenant préparer les données selon nos observations précédentes, c&rsquo;est à dire :</p>
+<ol>
+<li>retirer les colonnes <em>Name</em>, <em>Ticket</em>, <em>Cabin</em>, <em>Embarked</em>, et <em>PassengerId</em> qui ne nous sert à rien pour la prédiction; on retire également <em>Survived</em> puisque nous avons récupérer les étiquettes,</li>
+<li>coder en binaire s&rsquo;il s&rsquo;agit de femme ou d&rsquo;homme,</li>
+<li>remplir les valeurs d'âge manquantes,</li>
+<li>étape supplémentaire : recalibrer les données (on en parlera plus loin).</li>
+</ol>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="retirer-des-colonnes">Retirer des colonnes</h2>
+<p>On utilise la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop.html"target="_blank">drop</a> qui renvoi un <em>Dataframe</em> sans les colonnes voulues :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">data_without_columns</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;Ticket&#34;</span><span class="p">,</span> <span class="s2">&#34;Cabin&#34;</span><span class="p">,</span> <span class="s2">&#34;Embarked&#34;</span><span class="p">,</span> <span class="s2">&#34;PassengerId&#34;</span><span class="p">,</span> <span class="s2">&#34;Survived&#34;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="encoder-une-variable-en-binaire">Encoder une variable en binaire</h2>
+<p>La librairie <a href="http://scikit-learn.org/stable/index.html"target="_blank">Scikit-Learn</a> possède une fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelBinarizer.html"target="_blank">LabelBinarizer</a> dans son module de pré-traitement qui permet de réaliser directement cet encodage. Mais le retour de cette fonction un tableau <em>Numpy</em> qu&rsquo;il faut donc réinjecter dans un <em>Dataframe</em> de <strong>Pandas</strong>.<br>
+Or <strong>Pandas</strong> permet également de réaliser cet encodage avec sa fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html"target="_blank">get_dummies</a> :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">data_binarized</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_without_columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Sex&#34;</span><span class="p">])</span>
+</code></pre></div></div>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="valeurs-dâge-manquantes">Valeurs d'âge manquantes</h2>
+<p><strong>Scikit-Learn</strong> permet de facilement gérer les données manquantes à l&rsquo;aide de la fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html"target="_blank">imputer</a>. Il suffit de l&rsquo;instancier avec la stratégie voulue puis appliquer les données à l&rsquo;instance de classe créée. Elle retourne un tableau <em>Numpy</em> qu&rsquo;il faut remettre dans un <em>Dataframe</em> de <strong>Pandas</strong>.  <br>
+Voici comment ça fonctionne :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">Imputer</span>
+
+<span class="n">imputer</span> <span class="o">=</span> <span class="n">Imputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&#34;median&#34;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">imputer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data_binarized</span><span class="p">)</span>
+<span class="c1"># reinject in pandas.Dataframe: </span>
+<span class="n">data_median</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">data_binarized</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</code></pre></div></div>
+</div>
+<div class="jupyter-cell markdown">
+<p>Jetons un coup d&rsquo;oeil à nos données :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">data_median</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div></div>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 7 columns):
+Pclass        891 non-null float64
+Age           891 non-null float64
+SibSp         891 non-null float64
+Parch         891 non-null float64
+Fare          891 non-null float64
+Sex_female    891 non-null float64
+Sex_male      891 non-null float64
+dtypes: float64(7)
+memory usage: 48.8 KB
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p>C&rsquo;est plutôt satisfaisant ! Attaquons-nous maintenant à la recalibration des données : j&rsquo;utilise ici la <em>standardization</em> (in english, en français la normalisation) qui permet de mettre toutes les valeurs à la même échelle, afin de respecter les contraintes des algorithmes. <br>
+<strong>Scikit-Learn</strong> propose un transformateur pour cela : <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html"target="_blank">StandardScaler</a> du module <em>preprocessing</em>. Comme les autres fonctions, le retour est un tableau <em>Numpy</em>, que l&rsquo;on remet sous le format <em>pd.Dataframe</em> :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">std</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">std</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data_median</span><span class="p">)</span>
+<span class="n">data_std</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">data_median</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="n">data_std</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Sex_female</th>
+      <th>Sex_male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.827377</td>
+      <td>-0.565736</td>
+      <td>0.432793</td>
+      <td>-0.473674</td>
+      <td>-0.502445</td>
+      <td>-0.737695</td>
+      <td>0.737695</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-1.566107</td>
+      <td>0.663861</td>
+      <td>0.432793</td>
+      <td>-0.473674</td>
+      <td>0.786845</td>
+      <td>1.355574</td>
+      <td>-1.355574</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.827377</td>
+      <td>-0.258337</td>
+      <td>-0.474545</td>
+      <td>-0.473674</td>
+      <td>-0.488854</td>
+      <td>1.355574</td>
+      <td>-1.355574</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1.566107</td>
+      <td>0.433312</td>
+      <td>0.432793</td>
+      <td>-0.473674</td>
+      <td>0.420730</td>
+      <td>1.355574</td>
+      <td>-1.355574</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.827377</td>
+      <td>0.433312</td>
+      <td>-0.474545</td>
+      <td>-0.473674</td>
+      <td>-0.486337</td>
+      <td>-0.737695</td>
+      <td>0.737695</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="jupyter-cell markdown">
+<p>Nos données sont maintenant prêtes à être fournies aux algorithmes de machine learning ; elles ne ressemblent plus vraiment aux données d&rsquo;origine (<em>cf</em> le résultat de la fonction <em>head</em> ci-dessus) mais elles sont conformes à ce qu&rsquo;attendent ces algorithmes.</p>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="note-sur-la-partie-préparation-des-données">Note sur la partie &ldquo;Préparation des données&rdquo;</h2>
+<p>L'état de l&rsquo;art aurait voulu que j&rsquo;utilise des <a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html"target="_blank">Pipeline</a> afin de réaliser la préparation des données et permettre l&rsquo;automatisation de cette tâche. Je ne l&rsquo;ai pas fait içi pour principalement deux raisons :</p>
+<ol>
+<li>Je découvre le <em>machine learning</em> et j&rsquo;applique pas à pas la méthode du livre cité au début de l&rsquo;article : chaque chose en son temps (même si les <em>Pipeline</em> y sont expliqués).</li>
+<li>Je n&rsquo;aurais pas de nouvelles données et je ne mettrais donc pas en production le résultat de cette étude.</li>
+</ol>
+<p>Mais dans un cadre réel, il faudra automatiser toute cette partie afin de mettre à jour facilement les données afin d&rsquo;augmenter la performance de l&rsquo;algorithme choisi.</p>
+</div>
+<div class="jupyter-cell markdown">
+<h1 id="choix-et-entrainement-dun-modèle">Choix et entrainement d&rsquo;un modèle</h1>
+<p>Pour mémoire, nos données sont dans la variable <em>data_std</em> et les étiquettes dans <em>labels</em>. La librairie <strong>Scikit-Learn</strong> nous donne un certain nombre de modèle, nous allons donc tester nos valeurs sur certains d&rsquo;entre-eux :</p>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="linearregression">LinearRegression</h2>
+<p>Pour utiliser la régression linéaire, il suffit d&rsquo;instancier le modèle <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"target="_blank">LinearRegression</a> puis de l&rsquo;entrainer avec nos valeurs comme ceci :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">linreg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">linreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_std</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<h3 id="score">Score</h3>
+<p>Il nous faut maintenant évaluer nos résultats. Pour ce faire, j&rsquo;utilise la <em>validation croisée en K passes</em> en appliquant la fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html"target="_blank">cross_val_score</a> du module <em>model_selection</em>. Cette fonction permet de découper aléatoirement le jeu d&rsquo;entrainement en K morceaux, ce qui permet de faire plus d&rsquo;entrainement (au nombre de K).</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="n">linreg_score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">linreg</span><span class="p">,</span> <span class="n">data_std</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_squared_error&#34;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">linreg_rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">linreg_score</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">linreg_rmse</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Moyenne&#34;</span><span class="p">,</span> <span class="n">linreg_rmse</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Ecart-type&#34;</span><span class="p">,</span> <span class="n">linreg_rmse</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</code></pre></div></div>
+<pre><code>[ 0.38779897  0.37348749  0.39836752  0.39084261  0.38957355  0.37855029
+  0.39663624  0.40125233  0.32840724  0.37762877]
+Moyenne 0.382254499421
+Ecart-type 0.0199923822969
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p>On obtient une moyenne de la racine carrée de l&rsquo;erreur quadratique moyenne (RMSE) de 0.38 ; nous, nous cherchons à obtenir une valeur d&rsquo;erreur la plus petite possible<br>
+Essayons avec un autre algorithme :</p>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="decisiontreeregressor">DecisionTreeRegressor</h2>
+<p>Même chose avec le modèle <a href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html"target="_blank">DecisionTreeRegressor</a> :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="n">treereg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
+<span class="n">treereg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_std</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>DecisionTreeRegressor(criterion='mse', max_depth=None, max_features=None,
+           max_leaf_nodes=None, min_impurity_decrease=0.0,
+           min_impurity_split=None, min_samples_leaf=1,
+           min_samples_split=2, min_weight_fraction_leaf=0.0,
+           presort=False, random_state=None, splitter='best')
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p>On notera ici la présence de nombreux hyperparamètres, chacun peut permettre d&rsquo;affiner le résultat obtenu. Ces hyperparamètres ne se règlent qu&rsquo;une fois le bon modèle trouvé !</p>
+<h3 id="score-1">Score</h3>
+<p>De la même manière :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">treereg_score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">treereg</span><span class="p">,</span> <span class="n">data_std</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_squared_error&#34;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">treereg_rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">treereg_score</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">treereg_rmse</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Moyenne&#34;</span><span class="p">,</span> <span class="n">treereg_rmse</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Ecart-type&#34;</span><span class="p">,</span> <span class="n">treereg_rmse</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</code></pre></div></div>
+<pre><code>[ 0.4868645   0.47942838  0.51979766  0.4747034   0.44699689  0.40609775
+  0.45067181  0.50280114  0.43673578  0.39404905]
+Moyenne 0.45981463686
+Ecart-type 0.0384382715703
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p>Ah ! C&rsquo;est encore moins bien !
+Essayons un autre :</p>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="randomforestregressor">RandomForestRegressor</h2>
+<p>Nouvel essai avec <a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html"target="_blank">RandomForestRegressor</a> :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+
+<span class="n">forest</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">forest</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_std</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features='auto', max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+           oob_score=False, random_state=None, verbose=0, warm_start=False)
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<h3 id="score-2">Score</h3>
+<p>Et de même :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">forest_score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">forest</span><span class="p">,</span> <span class="n">data_std</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_squared_error&#34;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">forest_rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">forest_score</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">forest_rmse</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Moyenne&#34;</span><span class="p">,</span> <span class="n">forest_rmse</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Ecart-type&#34;</span><span class="p">,</span> <span class="n">forest_rmse</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</code></pre></div></div>
+<pre><code>[ 0.45047666  0.39228221  0.44474933  0.36923691  0.35309265  0.36961988
+  0.4282808   0.41886481  0.34147062  0.33537571]
+Moyenne 0.390344958784
+Ecart-type 0.0406264102691
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p>C&rsquo;est à peine mieux qu&rsquo;une régression linéaire&hellip;</p>
+</div>
+<div class="jupyter-cell markdown">
+<h1 id="affiner-son-modèle">Affiner son modèle</h1>
+<p>Maintenant que nous avons testé 3 modèles différents, nous pouvons tenter d&rsquo;en améliorer un (je choisis ici le dernier, le <em>RandomForestRegressor</em>) en optimisant ses hyperparamètres. On va donc effectuer une recherche aléatoire par quadrillage sur quelques paramètres en utilisant la fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html"target="_blank">RandomizedSearchCV</a> :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">time</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">param_dist</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;n_estimators&#34;</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+                <span class="s2">&#34;max_features&#34;</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+                <span class="s2">&#34;bootstrap&#34;</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">]}</span>
+
+<span class="n">forest</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">forest</span><span class="p">,</span> <span class="n">param_dist</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_squared_error&#34;</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_std</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>CPU times: user 20.5 s, sys: 99.9 ms, total: 20.6 s
+Wall time: 20.7 s
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p><code>%%time</code> permet d&rsquo;afficher le temps d&rsquo;exécution d&rsquo;une cellule dans un <em>notebook</em> de Jupyter. Ici, presque 18 secondes sur ma machine pour tester 20 (<em>cv=</em>) combinaisons.</p>
+<p>On maintenant affiche les meilleurs paramètres trouvés :</p>
+</div>
+<div class="jupyter-cell code">
+<div class="jupyter-input">
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Score : &#34;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+</code></pre></div></div>
+<pre><code>RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features=3, max_leaf_nodes=None, min_impurity_decrease=0.0,
+           min_impurity_split=None, min_samples_leaf=1,
+           min_samples_split=2, min_weight_fraction_leaf=0.0,
+           n_estimators=45, n_jobs=1, oob_score=False, random_state=None,
+           verbose=0, warm_start=False)
+Score :  0.370268736285
+</code></pre>
+</div>
+<div class="jupyter-cell markdown">
+<p>On améliore un peu le résultat final ! C&rsquo;est plutôt bien, sachant que l&rsquo;on joue ici que sur 3 paramètres. On obtient un score au final meilleur que la régression linéaire testée en premier.</p>
+</div>
+<div class="jupyter-cell markdown">
+<h1 id="conclusion">Conclusion</h1>
+<p>Voilà, c&rsquo;est fini pour ce premier essai en <em>machine learning</em>, avec des données réelles. Même si le résultat final n&rsquo;est pas hyper précis, j&rsquo;ai quand même appris plusieurs choses :</p>
+<ul>
+<li>la préparation des données est une tâche à part entière, qui occupe une bonne part de l&rsquo;analyse,</li>
+<li>après deux chapitres, j&rsquo;en ai appris beaucoup sur le l&rsquo;apprentissage automatique, ce qui me met l&rsquo;eau à la bouche pour la suite de ce livre (pour mémoire : <a href="https://www.amazon.fr/gp/product/210076540X/ref=as_li_tl?ie=UTF8&amp;camp=1642&amp;creative=6746&amp;creativeASIN=210076540X&amp;linkCode=as2&amp;tag=deslivrepourm-21&amp;linkId=a6c3ed7805af63613aaef46c12c5d31d%22"target="_blank">Machine Learning avec Scikit-Learn</a>),</li>
+<li>j&rsquo;ai finalement apprécié de travailler dans un <em>notebook</em> de <strong>Jupyter</strong>, il y a pas mal de fonctionnalités intéressantes lorsque l&rsquo;on fait du pas-à-pas avec son code,</li>
+</ul>
+<p>J&rsquo;ai maintenant hâte de continuer pour mieux comprendre le fonctionnement des algorithmes et comment les choisirs en fonction des besoins.</p>
+<p>A bientôt pour la suite :)</p>
+</div>
+</article></div><section class="article navigation"><p><a class="link" href="/posts/20180114-modeles-et-hyperparametres/"><span class="li">&larr;</span>Modèles et hyperparamétres</a></p><p><a class="link" href="/posts/20171216-challenge/"><span class="li">&rarr;</span>Cheatsheet de challenge</a></p></section><section class="article discussion"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "bittenbybypthon" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></section></div><section id="footer" class="footer"><div class="footer-wrap">
+    <p class="copyright">Bitten By Python<p>Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats.</p>
+    </p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-111329786-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</div>
+</body>
+
+</html>

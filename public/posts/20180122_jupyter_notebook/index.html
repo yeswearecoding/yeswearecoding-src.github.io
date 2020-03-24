@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr"><meta charset="utf-8"><meta name="generator" content="Hugo 0.68.1" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Comment et pourquoi utiliser les notebook Jupyter&nbsp;&ndash;&nbsp;Bitten By Python</title><link rel="stylesheet" href="/css/core.min.37019add09db3448f4f8d319d9e60295261ece9e6d82818ca564941bcc343650d4b263f74f05ff2597100292863f7acf.css" integrity="sha384-NwGa3QnbNEj0&#43;NMZ2eYClSYezp5tgoGMpWSUG8w0NlDUsmP3TwX/JZcQApKGP3rP"><body>
+    <div class="base-body"><section id="header" class="site header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">Bitten By Python</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/"></a><a class="nav item" href="/tags/"></a></nav></div></span></div></section><div id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Comment et pourquoi utiliser les notebook Jupyter</h1><p class="article date">22 January 2018</p></section><article class="article markdown-body"><p>Hello !</p>
+<p>Vous avez peut être entendu parler des <em>notebook</em> de <a href="http://jupyter.org/"target="_blank">Jupyter</a> et si comme moi, vous vous êtes demandé à quoi bon cela peut bien servir,
+je vais vous aider à y voir un peu plus clair.<br>
+Déjà, à quoi ils ressemblent ? Vous pouvez trouver une large <a href="http://nb.bianp.net/sort/views/"target="_blank">galerie d&rsquo;exemple ici</a>.<br>
+Voyons un peu ce que on peut en faire.</p>
+<h2 id="cas-dutilisation">Cas d&rsquo;utilisation</h2>
+<p>Les <em>notebook</em> ressemblent finalement à des pages Web dynamique, avec des champs que l&rsquo;on peut exécuter et voir le résultat en direct. Les grands cas d&rsquo;utilisation sont souvent en sciences
+car c&rsquo;est très pratique pour présenter des résultats pas à pas, expliquer des contextes. On les retrouvent souvent dans les domaines de :</p>
+<ul>
+<li>machine learning</li>
+<li>mathématiques</li>
+<li>physiques</li>
+<li>chimie, biologie</li>
+<li>géographie (avec affichage de cartes)</li>
+<li>analyse de signal</li>
+<li><em>etc</em></li>
+</ul>
+<p>Pour ma part, je m&rsquo;en sert généralement pour tester des bouts de code (genre un copier/coller de <em>stackoverflow</em>) ou pour présenter du code à des collègues, ou encore lorsque
+je m&rsquo;entraîne au <em>machine learning</em>. Bref, c&rsquo;est utile dans les cas où l&rsquo;on a besoin de pédagogie ou faire des tests en <em>scratch</em> (= à l&rsquo;arrache).</p>
+<p>Convaincu ? Pas encore ? Vous pouvez le tester en <em>live</em> sur <a href="https://try.jupyter.org/"target="_blank">try.jupyter.org</a>.</p>
+<h2 id="installation">Installation</h2>
+<p>Je détaille ici une installation sous Mac/Linux, pour Windows, c&rsquo;est à l&rsquo;aide d&rsquo;Anaconda mais le principe reste le même.<br>
+Créez tout d&rsquo;abord un environnement virtuel :<br>
+<code>python -m venv notebooks</code><br>
+Puis activez le : <code>source venv/bin/activate</code><br>
+Une fois fait : <code>pip install jupyter</code><br>
+Ce n'était pas bien compliqué ^^. N&rsquo;oubliez d&rsquo;ajouter les libraires dont vous avez besoin lorsque vous faites votre <code>pip install</code>.</p>
+<h2 id="démarrage">Démarrage</h2>
+<p>Depuis le terminal, après avoir activer l&rsquo;environnement virtuel, vous n&rsquo;avez plus qu'à exécuter <code>jupyter notebook</code>. Cette commande va lancer un navigateur Web
+(ou ouvrir un nouvel onglet) où vous pourrez voir un petit navigateur de fichier (par défaut <a href="http://localhost:8888]"target="_blank">localhost:8888</a>. On va pouvoir maintenant créer un nouvel notebook en utilisant le menu en haut à droite <code>New -&gt; Python 3</code>. Vous lancez ainsi un nouveau <strong>kernel</strong> de type <em>Python 3</em>. Si le précise, c&rsquo;est que l&rsquo;on peut en fait coder avec beaucoup d&rsquo;autres langages
+via ces <em>kernels</em>. Vous trouverez ici la <a href="https://github.com/jupyter/jupyter/wiki/Jupyter-kernels"target="_blank">liste de ces noyaux</a>.</p>
+<h2 id="utilisation">Utilisation</h2>
+<p>A partir de là, c&rsquo;est assez simple. Vous cliquez sur une cellule vide, vous tapez votre code puis vous cliquez sur le bouton <strong>Run</strong>. Il y a
+quelques raccourcis clavier qui permettent de se simplifier la vie, je vous fait un petit <em>cheat sheet</em> pour tout avoir sous la main :</p>
+<table>
+<thead>
+<tr>
+<th>Raccourci</th>
+<th>Action</th>
+<th>Exemple / Résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shift</code> + <code>enter</code></td>
+<td>exécute le contenu d&rsquo;une cellule puis crée une nouvelle cellule vide au dessous</td>
+<td></td>
+</tr>
+<tr>
+<td><code>alt</code> + <code>enter</code></td>
+<td>exécute le contenu d&rsquo;une cellule sans en créer de nouvelle</td>
+<td></td>
+</tr>
+<tr>
+<td><code>tab</code></td>
+<td>autocomplétion</td>
+<td></td>
+</tr>
+<tr>
+<td><code>shift</code> + <code>tab</code></td>
+<td>affiche la documentation de la fonction</td>
+<td> </td>
+</tr>
+<tr>
+<td><code>click gauche sur une cellule</code></td>
+<td>réduit la taille de la cellule</td>
+<td></td>
+</tr>
+<tr>
+<td><code>double click</code></td>
+<td>réduit entièrement la cellule</td>
+<td></td>
+</tr>
+<tr>
+<td><code>!</code> + <code>cmd</code></td>
+<td>exécute une commande shell</td>
+<td><code>!pip install numpy</code></td>
+</tr>
+<tr>
+<td><code>%%bash</code></td>
+<td>le contenu de la cellule sera exécuté en tant que script shell</td>
+<td></td>
+</tr>
+<tr>
+<td><code>%%time</code></td>
+<td>mesure le temps d&rsquo;exécution</td>
+<td><code>CPU times: user 1.23 ms, sys: 4.82 ms, total: 6.05 ms</code></td>
+</tr>
+</tbody>
+</table>
+<p>Tous les raccourcis peuvent se retrouver dans le répertoire <strong>Help &gt; Keyboard Shortcuts</strong>.<br>
+A noter également que toutes les <a href="http://ipython.readthedocs.io/en/stable/interactive/magics.html"target="_blank"><code>magic</code> commandes d&rsquo;IPython</a> sont supportées.</p>
+</article></div><section class="article navigation"><p><a class="link" href="/posts/20180123-vim/"><span class="li">&larr;</span>Comment (enfin!) utiliser Vim</a></p><p><a class="link" href="/posts/20180114-modeles-et-hyperparametres/"><span class="li">&rarr;</span>Modèles et hyperparamétres</a></p></section><section class="article discussion"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "bittenbybypthon" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></section></div><section id="footer" class="footer"><div class="footer-wrap">
+    <p class="copyright">Bitten By Python<p>Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats.</p>
+    </p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-111329786-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</div>
+</body>
+
+</html>

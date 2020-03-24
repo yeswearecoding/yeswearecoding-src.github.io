@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr"><meta charset="utf-8"><meta name="generator" content="Hugo 0.68.1" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Modèles et hyperparamétres&nbsp;&ndash;&nbsp;Bitten By Python</title><link rel="stylesheet" href="/css/core.min.37019add09db3448f4f8d319d9e60295261ece9e6d82818ca564941bcc343650d4b263f74f05ff2597100292863f7acf.css" integrity="sha384-NwGa3QnbNEj0&#43;NMZ2eYClSYezp5tgoGMpWSUG8w0NlDUsmP3TwX/JZcQApKGP3rP"><body>
+    <div class="base-body"><section id="header" class="site header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">Bitten By Python</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/"></a><a class="nav item" href="/tags/"></a></nav></div></span></div></section><div id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Modèles et hyperparamétres</h1><p class="article date">14 January 2018</p></section><article class="article markdown-body"><div class="jupyter-cell markdown">
+<p>Hello,</p>
+<p>L&rsquo;un des problèmes lorsque l&rsquo;on débute en <em>machine learning</em> est le choix de l&rsquo;algorithme (ou modèle) à utiliser. Je viens de tomber sur un <a href="http://blog.kaggle.com/2016/07/21/approaching-almost-any-machine-learning-problem-abhishek-thakur/"target="_blank">article du blog de Kaggle</a> où l&rsquo;auteur partage son approche des différents problèmes à résoudre en <em>ML</em>. J&rsquo;ai noté deux parties qui m&rsquo;ont éclairé un peu plus sur le choix des modèles et des hyperparamètres à régler.</p>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="choix-dun-modèle">Choix d&rsquo;un modèle</h2>
+<p>Il y a deux grandes familles d&rsquo;algorithmes : ceux qui permettent de réaliser une prédiction (à l&rsquo;aide d&rsquo;une régression) et ceux qui identifie une variable parmi d&rsquo;autres (la classification). Les modèles les plus courants pour réaliser ses tâches sont donc :</p>
+</div>
+<div class="jupyter-cell markdown">
+<table>
+<thead>
+<tr>
+<th align="left">Classification</th>
+<th>Regression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Random Forest</td>
+<td>Random Forest</td>
+</tr>
+<tr>
+<td align="left">GBM</td>
+<td>GBM</td>
+</tr>
+<tr>
+<td align="left">Logistic Regression</td>
+<td>Linear Regression</td>
+</tr>
+<tr>
+<td align="left">Naive Bayes</td>
+<td>Ridge</td>
+</tr>
+<tr>
+<td align="left">Support Vector Machines</td>
+<td>Lasso</td>
+</tr>
+<tr>
+<td align="left">k-Nearest Neighbors</td>
+<td>SVR</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="jupyter-cell markdown">
+<h2 id="choix-des-hyperparamètres">Choix des hyperparamètres</h2>
+<p>Les hyperparamètres sont ces variables qui permettent d&rsquo;affiner le fonctionnement d&rsquo;un modèle de <em>machine learning</em>. Jusqu'à présent, j&rsquo;utilisais des valeurs trouvées dans un livre ou sur des sites internet, sans trop savoir qu&rsquo;est ce que je pouvais utiliser, jusqu'à quelle valeur je pouvais aller.<br>
+Bref, j&rsquo;y allais à tâtons au &ldquo;pif-o-mètre&rdquo;. Mais l&rsquo;auteur partage également un tableau récapitulatif de ces différents hyperparamètres et les plages de valeurs les plus prometteuses.<br>
+Je le reprend ici :</p>
+</div>
+<div class="jupyter-cell markdown">
+<table>
+<thead>
+<tr>
+<th align="center">Modèle</th>
+<th align="center">Hyperparamètre</th>
+<th align="center">Plage de données</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><strong>Régression linéaire</strong></td>
+<td align="center">fit_intercept<br>normalize</td>
+<td align="center">True / False<br>True / False</td>
+</tr>
+<tr>
+<td align="center"><strong>Ridge</strong></td>
+<td align="center">alpha<br>fit_intercept<br>normalize</td>
+<td align="center">0.01, 0.1, 1.0, 10, 100<br>True / False<br>True / False</td>
+</tr>
+<tr>
+<td align="center"><strong>K-neighbors</strong></td>
+<td align="center">N_neighbors<br>p</td>
+<td align="center">2, 4, 8, 16&hellip;<br>2,3</td>
+</tr>
+<tr>
+<td align="center"><strong>SVM</strong></td>
+<td align="center">C<br>gamma<br>class_weight</td>
+<td align="center">0.001, 0.01&hellip;10&hellip;100&hellip;1000<br>Auto ou Random Search<br>Balanced, None</td>
+</tr>
+<tr>
+<td align="center"><strong>Régression logistique</strong></td>
+<td align="center">Penalty<br>C</td>
+<td align="center">L1 ou I2<br>0.001, 0.01&hellip;10&hellip;100</td>
+</tr>
+<tr>
+<td align="center"><strong>Naive Bayes</strong></td>
+<td align="center">aucun</td>
+<td align="center">aucun</td>
+</tr>
+<tr>
+<td align="center"><strong>Lasso</strong></td>
+<td align="center">alpha<br>normalize</td>
+<td align="center">0.1, 1.0, 10<br>True / False</td>
+</tr>
+<tr>
+<td align="center"><strong>Random Forest</strong></td>
+<td align="center">n_estimators<br>max_depth<br>min_samples_split<br>min_samples_leaf<br>max_features</td>
+<td align="center">120, 300, 500, 800, 1200<br>5, 8, 15, 25, 30, None<br>1, 2, 5, 10, 15, 100<br>1, 2, 5, 10<br>Log2, sqrt, None</td>
+</tr>
+<tr>
+<td align="center"><strong>Xgboost</strong></td>
+<td align="center">eta<br>gamma<br>max_depth<br>min_child_weight<br>subsample<br>colsample_bytree<br>lambda<br>alpha</td>
+<td align="center">0.01, 0.015, 0.025, 0.05, 0.1<br>0.05-0.1, 0.3, 0.5, 0.7, 0.9, 1.0<br>3, 5, 7, 9, 12, 15, 17, 25<br>1, 3, 5, 7<br>0.6, 0.7, 0.8, 0.9, 1.0<br>0.6, 0.7, 0.8, 0.9, 1.0<br>0.01-0.1, 1.0, Random Search<br>0, 0.1, 0.5, 1.0, Random Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="jupyter-cell markdown">
+<p>J&rsquo;espère que ces petits récapitulatifs vous seront autant utiles qu'à moi ;-)</p>
+<p>A bientôt !</p>
+</div>
+</article></div><section class="article navigation"><p><a class="link" href="/posts/20180122_jupyter_notebook/"><span class="li">&larr;</span>Comment et pourquoi utiliser les notebook Jupyter</a></p><p><a class="link" href="/posts/20180104-titanic/"><span class="li">&rarr;</span>Titanic</a></p></section><section class="article discussion"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "bittenbybypthon" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></section></div><section id="footer" class="footer"><div class="footer-wrap">
+    <p class="copyright">Bitten By Python<p>Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats.</p>
+    </p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-111329786-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</div>
+</body>
+
+</html>

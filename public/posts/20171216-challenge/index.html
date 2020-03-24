@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr"><meta charset="utf-8"><meta name="generator" content="Hugo 0.68.1" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Cheatsheet de challenge&nbsp;&ndash;&nbsp;Bitten By Python</title><link rel="stylesheet" href="/css/core.min.37019add09db3448f4f8d319d9e60295261ece9e6d82818ca564941bcc343650d4b263f74f05ff2597100292863f7acf.css" integrity="sha384-NwGa3QnbNEj0&#43;NMZ2eYClSYezp5tgoGMpWSUG8w0NlDUsmP3TwX/JZcQApKGP3rP"><body>
+    <div class="base-body"><section id="header" class="site header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">Bitten By Python</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/"></a><a class="nav item" href="/tags/"></a></nav></div></span></div></section><div id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Cheatsheet de challenge</h1><p class="article date">16 December 2017</p></section><article class="article markdown-body"><p>Hello,</p>
+<p>A force de faire quelques challenge sur <a href="https://www.hackerrank.com/yeswearecoding"target="_blank">HackerRank</a>, j&rsquo;ai
+noté quelques <em>tricks</em> que j&rsquo;oublie souvent. Du coup, je met ça içi. Servez-vous :-)</p>
+<h2 id="list-et-set"><em>list</em> et <em>set</em></h2>
+<h3 id="intersection-de-deux-listes">intersection de deux listes</h3>
+<p>Récupérer l&rsquo;intersection entre deux listes (en fait, uniquement si l&rsquo;une des deux peut être transformée en set):</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;un&#39;</span><span class="p">,</span> <span class="s1">&#39;deux&#39;</span><span class="p">,</span> <span class="s1">&#39;trois&#39;</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dites&#39;</span><span class="p">,</span> <span class="s1">&#39;trente&#39;</span><span class="p">,</span> <span class="s1">&#39;trois&#39;</span><span class="p">]</span>
+<span class="n">inter</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+</code></pre></div><p>Résultat :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">inter</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;trois&#39;</span><span class="p">]</span>
+</code></pre></div><h2 id="module-itertools">module <em>itertools</em></h2>
+<h3 id="toutes-les-combinaisons-dune-liste-de-listes">toutes les combinaisons d&rsquo;une liste de listes</h3>
+<p>Imaginons que j&rsquo;ai une méga liste qui contient des listes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">mega_liste</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]]</span>
+</code></pre></div><p>Tout le job de génération des combinaison se fait par la fonction <em>product</em> de <em>itertools</em>. La doc (en français !) se trouve ici : <a href="https://docs.python.org/fr/3.6/library/itertools.html#itertools.product"target="_blank">doc itertools</a>. Les explications restent un peu pas forcément hyper claires mais j&rsquo;espère que ce petit exemple vous permettra d&rsquo;en comprendre l&rsquo;utilité.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="n">combinaisons</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">mega_liste</span><span class="p">)</span>
+</code></pre></div><p>On utilise ici l&rsquo;opérateur <em>splat</em> (l'étoile) pour faire de l&rsquo;<em>unpacking</em> sur &lsquo;mega_liste&rsquo;. Un (excellent) article sur ça : <a href="http://sametmax.com/operateur-splat-ou-etoile-en-python/"target="_blank">SametMax - operateur splat ou étoile en Python</a>.<br>
+On obtient alors :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">combinaison</span> <span class="ow">in</span> <span class="n">combinaisons</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">combinaison</span><span class="p">)</span>
+
+<span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+</code></pre></div></article></div><section class="article navigation"><p><a class="link" href="/posts/20180104-titanic/"><span class="li">&larr;</span>Titanic</a></p></section><section class="article discussion"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "bittenbybypthon" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></section></div><section id="footer" class="footer"><div class="footer-wrap">
+    <p class="copyright">Bitten By Python<p>Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats.</p>
+    </p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-111329786-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</div>
+</body>
+
+</html>

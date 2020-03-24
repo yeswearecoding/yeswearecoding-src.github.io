@@ -1,0 +1,46 @@
+baseURL = "http://www.bittenbypython.com/"
+title = "Bitten By Python"
+theme = "hugo-notepadium"
+
+languageCode = "fr-fr"
+DefaultContentLanguage = "fr"
+hasCJKLanguage = false
+
+enableRobotsTXT = true
+
+disqusShortname = "bittenbybypthon"
+googleAnalytics = "UA-111329786-1"
+
+[markup.highlight]
+codeFences = true
+noClasses = false
+
+[markup.goldmark.renderer]
+unsafe = true  # enable raw HTML in Markdown
+
+[params]
+style = "dark"  # default: auto. light: light theme, dark: dark theme, auto: based on system.
+dateFormat = "2 January 2006"  # if unset, default is "2006-01-02"
+logo = ""  # if you have a logo png
+slogan = "" # "Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats"
+license = ""  # CC License
+fullRss = false # Puts entire HTML post into rss 'description' tag. If unset, default is false.
+
+[params.comments]
+enable = false  # En/Disable comments globally, default: false. You can always enable comments on per page.
+
+[params.math]
+enable = false  # optional: true, false. Enable globally, default: false. You can always enable math on per page.
+use = "katex"  # option: "katex", "mathjax". default: "katex"
+
+[params.syntax]
+use = "none"  # builtin: "prismjs", "hljs". "none" means Chroma
+theme = "dracula"
+darkTheme = "dracula"  # apply this theme in dark mode
+
+[params.nav]
+showCategories = true       # /categories/
+showTags = true             # /tags/
+
+[params.assets]
+css = ["css/fonts.css"]

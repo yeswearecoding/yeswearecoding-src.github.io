@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr"><meta charset="utf-8"><meta name="generator" content="Hugo 0.68.1" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>A la découverte de MicroPython sur ESP32&nbsp;&ndash;&nbsp;Bitten By Python</title><link rel="stylesheet" href="/css/core.min.37019add09db3448f4f8d319d9e60295261ece9e6d82818ca564941bcc343650d4b263f74f05ff2597100292863f7acf.css" integrity="sha384-NwGa3QnbNEj0&#43;NMZ2eYClSYezp5tgoGMpWSUG8w0NlDUsmP3TwX/JZcQApKGP3rP"><body>
+    <div class="base-body"><section id="header" class="site header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">Bitten By Python</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/"></a><a class="nav item" href="/tags/"></a></nav></div></span></div></section><div id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">A la découverte de MicroPython sur ESP32</h1><p class="article date">24 August 2018</p></section><article class="article markdown-body"><p>Hello ! Comme c&rsquo;est les vacances et qu&rsquo;il faut bien s&rsquo;occuper (#geeker) un peu, j&rsquo;ai joué un peu avec <a href="http://micropython.org/"target="_blank">MicroPython</a> sur un microcontrôleur de type ESP32. Je me suis basé sur la lecture de <a href="https://amzn.to/2PBEEIv"target="_blank">Programmer en MicroPython</a>, qui est le seul livre en français sur le sujet. Bon, il y en 2-3 de plus en anglais, mais rien de folichon non plus&hellip;<br>
+Pour le matériel, j&rsquo;ai utilisé ma carte <a href="https://amzn.to/2PAWV8O"target="_blank">ESP32 Gateway de chez Olimex</a> que j&rsquo;avais sous la main.<br>
+Voyons voir ce que l&rsquo;on peut faire avec tout ça! 🕵️‍♂️</p>
+<h2 id="présentation-de-micropython">Présentation de MicroPython</h2>
+<p>Il s&rsquo;agit d&rsquo;un projet lancé en 2013 sur Kickstarter pour financer le portage d&rsquo;une version légère de Python sur des microcontrôleurs. Enthousiasme de la communauté, les objectifs de la campagne sont largement dépassées et le projet est finalisé. Il est associé à un matériel spécifiquement développé pour ce système, la <a href="https://amzn.to/2BFE0Xu"target="_blank">PyBoard</a>, qui comporte plein d&rsquo;entrées/sorties (des GPIO, comme sur les Raspberry) et qui est pleinement supportée par le projet.<br>
+Plusieurs autres cartes sont supportées : <a href="https://amzn.to/2PDvGue"target="_blank">WiPy de chez Pycom</a>, les ESP8266, les ESP32, des cartes à base de STM32 comme la NUCLEO-F401RE, la <a href="https://amzn.to/2N9kfsq"target="_blank">NUCLEO-F767ZI</a>, la <a href="https://amzn.to/2MPhOhN"target="_blank">NUCLEO-L476RG</a> ou bien encore la <a href="https://amzn.to/2o6SE0d"target="_blank">Espruino Pico</a>. Bref, il y a du choix ma petite dame !<br>
+Et maintenant, c&rsquo;est le moment de se retrousser les manches et de mettre les mains dans le camboui !<br>
+💪</p>
+<h2 id="installation-du-firmware">Installation du firmware</h2>
+<h2 id="prérequis">Prérequis</h2>
+<h3 id="drivers-usbsérie">Drivers USB/série</h3>
+<p>Les cartes microcontrôleur utilisent très généralement des convertisseur USB-série afin de les utiliser facilement depuis son PC. Mais cela nécessite l&rsquo;installation des drivers associés.<br>
+Pour ma carte, c&rsquo;est le CH340. Je suis sous Mac, j&rsquo;ai utilisé la méthode d&rsquo;installation <em>via</em> Homebrew trouvée ici : <a href="https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver"target="_blank">CH340G CH34G CH34X Mac OS X driver</a>. Une fois branchée votre carte, récupérer le nom du point de montage (par exemple avec un <code>sudo dmesg | grep dev</code>). Pour moi, c&rsquo;est <code>/dev/cu.wchusbserial1410</code> que j&rsquo;utiliserai pour la suite de cet article, n&rsquo;oubliez pas d&rsquo;adapter à votre cas (généralement <code>/dev/ttyUSB0</code> pour Linux, <code>COMx</code> (où x est un nombre) pour Windows).</p>
+<h3 id="screen">Screen</h3>
+<p>Autre élément, on aura besoin d&rsquo;utiliser un shell à travers une liaison série. Sous Linux ou Mac, assurez-vous d&rsquo;avoir <code>screen</code> d&rsquo;installé. Petit rappel / guide de survie des commandes de cet outil :<br>
+<code>Ctrl A</code> puis <code>Ctrl D</code> pour détacher une session. Vous allez sortir de <code>screen</code> mais votre session sera toujours active. Vous pourrez la retrouver avec <code>screen -r</code>.<br>
+Pour fermer une session : <code>Ctrl A</code> puis <code>:</code> puis <code>quit</code> (tapez entrée pour valider).</p>
+<h2 id="créer-un-environnement-virtuel">Créer un environnement virtuel</h2>
+<p>Nous allons avoir besoin de plusieurs librairies en Python. Pour une meilleure organisation, je vous conseille (comme tout projet d&rsquo;ailleur) de créer un environnement virtuel dédié.<br>
+J&rsquo;utilise <a href="https://pipenv.readthedocs.io/en/latest/"target="_blank">Pipenv</a> pour faire ça facilement et rapidement :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mkdir micropython-esp32
+<span class="nb">cd</span> micropython-esp32
+pipenv install esptool adafruit-ampy
+pipenv shell
+</code></pre></div><p><code>esptool</code> permet d&rsquo;effacer puis flasher un microcontrôleur, <code>adafruit-ampy</code> sert à lister les fichiers présents, en récupérer (<code>get</code>) ou en déposer (<code>put</code>).</p>
+<p>Nous somme désormais dans notre environnement virtuel avec les librairies qui vont bien. On peut passer à la suite.</p>
+<h2 id="flasher-sa-carte">Flasher sa carte</h2>
+<p>Bon, les exemples que je donne sont valables (testés) avec ma carte mais devrait fonctionner (à quelques adaptations mineures près) avec les autre carte.<br>
+Pour la suite, on va récupérer le firmware, effacer la mémoire du microcontrôleur puis la réécrire avec le MicroPython.</p>
+<h3 id="récupérer-le-dernier-firmware">Récupérer le dernier firmware</h3>
+<p>Tout se trouve sur la page <a href="http://micropython.org/download"target="_blank">Downloads</a>. Récupérez la version qui correspond à votre matériel. Pour la ESP32 Gateway de chez Olimex, c&rsquo;est dans <strong>Firmware for ESP32 boards</strong> puis <strong>Standard firmware</strong>. Un coup de <code>wget</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">wget http://micropython.org/resources/firmware/esp32-20180824-v1.9.4-479-g828f771e3.bin
+</code></pre></div><h3 id="effacer-la-mémoire-du-microcontrôleur">Effacer la mémoire du microcontrôleur</h3>
+<p>On utilise la librairie <code>esptool</code> pour effacer la mémoire de l&rsquo;ESP32 :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">esptool.py --chip esp32 erase_flash
+</code></pre></div><p>Il devrait trouver automatique le point de montage. Si ce n'était pas le cas, vous pouvez le spécifier avec l&rsquo;option <code>--port</code>.<br>
+Si vous avez des soucis, vous pouvez baisser la vitesse de transfert en utilisant <code>--baud 115200</code>.</p>
+<h3 id="ecrire-le-firmware">Ecrire le <em>firmware</em></h3>
+<p>On peut maintenant charger le firmware. On utilise la commande suivante :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">esptool.py --chip esp32 --port /dev/cu.wchusbserial1410 write_flash -z 0x1000 esp32-20180824-v1.9.4-479-g828f771e3.bin
+</code></pre></div><p>N&rsquo;oubliez pas d&rsquo;adapter le nom de firmware. Et en moins d&rsquo;une minute, vous devriez obtenir quelque chose du genre :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">esptool.py v2.5.0
+Serial port /dev/cu.wchusbserial1410
+Connecting......
+Chip is ESP32D0WDQ6 <span class="o">(</span>revision 1<span class="o">)</span>
+Features: WiFi, BT, Dual Core
+MAC: 24:0a:c4:0c:31:1c
+Uploading stub...
+Running stub...
+Stub running...
+Configuring flash size...
+Auto-detected Flash size: 4MB
+Compressed <span class="m">1053520</span> bytes to 663112...
+Wrote <span class="m">1053520</span> bytes <span class="o">(</span><span class="m">663112</span> compressed<span class="o">)</span> at 0x00001000 in 59.5 seconds <span class="o">(</span>effective 141.7 kbit/s<span class="o">)</span>...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...
+</code></pre></div><p>Pas d&rsquo;erreur, on peut se connecter sur le shell de notre MicroPython fraîchement installé !</p>
+<h3 id="se-connecter-au-shell-micropython">Se connecter au shell MicroPython</h3>
+<p>On utilise <code>screen</code>pour se connecter en lui donnant le point de montage et la vitesse de transmission (115200 bauds par défaut) :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">screen /dev/cu.wchusbserial1410 <span class="m">115200</span>
+</code></pre></div><p>Et sous vos yeux ébahis :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">I <span class="o">(</span>389<span class="o">)</span> cpu_start: Single core mode
+I <span class="o">(</span>389<span class="o">)</span> heap_init: Initializing. RAM available <span class="k">for</span> dynamic allocation:
+I <span class="o">(</span>392<span class="o">)</span> heap_init: At 3FFAE6E0 len <span class="m">00001920</span> <span class="o">(</span><span class="m">6</span> KiB<span class="o">)</span>: DRAM
+I <span class="o">(</span>398<span class="o">)</span> heap_init: At 3FFC4F48 len 0001B0B8 <span class="o">(</span><span class="m">108</span> KiB<span class="o">)</span>: DRAM
+I <span class="o">(</span>405<span class="o">)</span> heap_init: At 3FFE0440 len 00003BC0 <span class="o">(</span><span class="m">14</span> KiB<span class="o">)</span>: D/IRAM
+I <span class="o">(</span>411<span class="o">)</span> heap_init: At 3FFE4350 len 0001BCB0 <span class="o">(</span><span class="m">111</span> KiB<span class="o">)</span>: D/IRAM
+I <span class="o">(</span>417<span class="o">)</span> heap_init: At <span class="m">40091448</span> len 0000EBB8 <span class="o">(</span><span class="m">58</span> KiB<span class="o">)</span>: IRAM
+I <span class="o">(</span>424<span class="o">)</span> cpu_start: Pro cpu start user code
+I <span class="o">(</span>218<span class="o">)</span> cpu_start: Starting scheduler on PRO CPU.
+OSError: <span class="o">[</span>Errno 2<span class="o">]</span> ENOENT
+MicroPython v1.9.4-479-g828f771e3 on 2018-08-21<span class="p">;</span> ESP32 module with ESP32
+Type <span class="s2">&#34;help()&#34;</span> <span class="k">for</span> more information.
+&gt;&gt;&gt;
+</code></pre></div><p>Félicitations ! 🤩</p>
+<h2 id="premier-test">Premier test</h2>
+<p>évidement, comme tout tuto sur de l&rsquo;embarqué qui se respecte, on va faire clignoter une LED. Si vous avez déjà touché à l&rsquo;Arduino, vous allez voir comme c&rsquo;est similaire mais en plus simple grâce à Python.</p>
+<h3 id="principe">Principe</h3>
+<p>Il est assez simple. Il va falloir savoir sur quel PIN notre LED est connecté (on va trouver ce genre d&rsquo;information dans la <em>datasheet</em> de la carte), comment la faire changer de niveau (bas = 0 = éteint, haut = 1 = allumé) puis trouver quelle fonction nous permet d&rsquo;attendre entre chaque changement de niveau. Let&rsquo;s go ! ⚙️⚙️⚙️</p>
+<h3 id="datasheet">Datasheet</h3>
+<p>Un schéma explicatif et des informations sur la carte sont disponible ici <a href="https://docs.zerynth.com/latest/official/board.zerynth.olimex_esp32gateway/docs/index.html"target="_blank">Olimex Esp32 Gateway</a>. Une image valant mille mots :
+<a target="_blank" rel="noopener noreferrer" 
+  href="https://docs.zerynth.com/latest/_images/Olimex_ESP32_gateway_pin_comm.jpg"><img  src="https://docs.zerynth.com/latest/_images/Olimex_ESP32_gateway_pin_comm.jpg"
+        alt="Oh le beau schéma"/></a></p>
+<p>On peut voir la LED en haut à gauche puis on la retrouve sur les GPIO comme étant connecté à la broche <code>D33</code> (le D est pour <em>digital</em> donc numérique).</p>
+<h3 id="faire-changer-détat-à-une-broche">Faire changer d'état à une broche</h3>
+<p>Il y a un module spécifique pour cela : <code>machine</code> qui contient une fonction <code>Pin</code>. On peut ainsi définir une broche et son sens (c&rsquo;est à dire si elle en sortie ou en entrée). Une LED est une sortie, on peut donc la définir ainsi :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
+
+<span class="n">led</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="n">Pin</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</code></pre></div><p>On pourra faire changer son état grâce à la méthode <code>value()</code> de notre LED (qui est du type <code>Pin</code>) avec <code>led.value(1)</code> pour un état haut et <code>led.value(0)</code> pour un état bas.</p>
+<p>Pour attendre entre les deux états, nous avons besoins d&rsquo;un <code>sleep()</code>. Ici vous le trouverez dans la librairie <code>utime</code> (le <code>u</code> est pour micro). On l&rsquo;utilise ainsi :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">utime</span> <span class="kn">import</span> <span class="n">sleep_ms</span>
+
+<span class="n">sleep_ms</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+</code></pre></div><h3 id="assemblage-du-tout">Assemblage du tout</h3>
+<p>On a du coup le code suivant :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
+<span class="kn">from</span> <span class="nn">utime</span> <span class="kn">import</span> <span class="n">sleep_ms</span>
+
+<span class="n">led</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="n">Pin</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+  <span class="n">led</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">sleep_ms</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+  <span class="n">led</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">sleep_ms</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+</code></pre></div><p>En copiant/collant ligne par ligne dans <code>screen</code>, vous pouvez tester ce code. Mais il y plus facile.</p>
+<h3 id="utiliser-les-fichiers">Utiliser les fichiers</h3>
+<p>Dans votre session MicroPython, vous pouvez taper le code suivant pour voir les fichiers présents par défaut sur l&rsquo;ESP32 :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">&gt;&gt;&gt; import os
+&gt;&gt;&gt; os.listdir<span class="o">()</span>
+<span class="o">[</span><span class="s1">&#39;boot.py&#39;</span><span class="o">]</span>
+</code></pre></div><p>Il n&rsquo;y qu&rsquo;un seul fichier. On va regarder son contenu.</p>
+<h4 id="lister-les-fichiers">Lister les fichiers</h4>
+<p>Sortez de votre session de <code>screen</code> pour utiliser l&rsquo;outil <code>ampy</code> d&rsquo;Adafruit. Sans être dans une session de shell (elle doit être fermée sous peine d&rsquo;erreur), cet outil permet de récupérer la liste des fichiers présents :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ampy --port /dev/cu.wchusbserial1410 --baud <span class="m">115200</span> -d <span class="m">2</span> ls
+boot.py
+</code></pre></div><p>L&rsquo;option <code>--port</code>est pour notre point de montage, <code>--baud</code> pour la vitesse et <code>-d</code> pour ajouter un délai. Sans ce délai, j&rsquo;avais toujours des erreurs. Cette dernière option ne sera peut-être pas nécessaire pour vous, à tester.</p>
+<p>Le retour est notre liste de fichier, qui est bien identique à ce que l&rsquo;on a obtenu dans le shell python.</p>
+<h5 id="simplifier-ampy">Simplifier ampy</h5>
+<p>Si vous faites un <code>ampy --help</code>, vous pouvez voir que les options peuvent être remplacées par des variables de shell. Ce que je vais faire ici pour me simplifier la tâche. Selon la doc, je peux donc faire (je suis dans un shell <code>zsh</code>, à adapter au votre) :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">AMPY_PORT</span><span class="o">=</span>/dev/cu.wchusbserial1410
+<span class="nb">export</span> <span class="nv">AMPY_BAUD</span><span class="o">=</span><span class="m">115200</span>
+<span class="nb">export</span> <span class="nv">AMPY_DELAY</span><span class="o">=</span><span class="m">2</span>
+</code></pre></div><p>Ce qui simplifie ma commande par : <code>ampy ls</code>. C&rsquo;est pas merveilleux ? 🤗</p>
+<h4 id="récupérer-un-fichier">Récupérer un fichier</h4>
+<p>Maintenant que l&rsquo;on a configurer <code>ampy</code>, rien de plus simple :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ampy get boot.py &gt; boot.py
+</code></pre></div><p>On notera la redirection de flux vers un fichier. En effet, par défaut ampy écrit le résultat directement dans le shell. On peu alors examiner le contenu de ce fichier :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># This file is executed on every boot (including wake-boot from deepsleep)</span>
+<span class="c1">#import esp</span>
+<span class="c1">#esp.osdebug(None)</span>
+<span class="c1">#import webrepl</span>
+<span class="c1">#webrepl.start()</span>
+</code></pre></div><p>Hey ! Que du code commenté ! Remplaçons le par notre code écrit plus haut pour faire clignoter notre LED. Une fois le fichier enregistré, nous allons pouvoir le pousser sur notre carte.</p>
+<h4 id="uploader-un-fichier">Uploader un fichier</h4>
+<p>On utilise l&rsquo;option <code>put</code> de <code>ampy</code>, ce qui nous donne :</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ampy put boot.py
+</code></pre></div><p>On fait alors un <code>reset</code>de la carte <em>via</em> le bouton <code>RST1</code>et &hellip;. Magie !!! 🧙‍♂️</p>
+<p>Si vous vous connectez avec <code>screen</code>, vous remarquerez que vous n&rsquo;avez pas de shell. En effet, notre programme ne termine jamais, il ne rend donc pas la main. Pour revenir au shell, supprimez le <code>boot.py</code>de la carte puis réuploadez en un vide.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Vous, cette &ldquo;petite&rdquo; introduction est terminée, j&rsquo;espère qu&rsquo;elle vous sera utile et que vous avez appris / eu envie de tester MicroPython !</p>
+<p>N&rsquo;hésitez pas à me faire part de vos commentaires, pour ma part je vais poursuivre mes tests au fil du temps.</p>
+<p>Ciao !!</p>
+</article></div><section class="article navigation"><p><a class="link" href="/posts/20180206-decorateurs/"><span class="li">&rarr;</span>Comprendre les décorateurs</a></p></section><section class="article discussion"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "bittenbybypthon" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></section></div><section id="footer" class="footer"><div class="footer-wrap">
+    <p class="copyright">Bitten By Python<p>Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats.</p>
+    </p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-111329786-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</div>
+</body>
+
+</html>
