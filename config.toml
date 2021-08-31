@@ -20,7 +20,7 @@ unsafe = true  # enable raw HTML in Markdown
 
 [params]
 style = "dark"  # default: auto. light: light theme, dark: dark theme, auto: based on system.
-dateFormat = "2 January 2006"  # if unset, default is "2006-01-02"
+dateFormat = "2 Janvier 2006"  # if unset, default is "2006-01-02"
 logo = ""  # if you have a logo png
 slogan = "" # "Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats"
 license = ""  # CC License
