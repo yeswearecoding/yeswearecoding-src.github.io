@@ -1,6 +1,8 @@
 ---
 date: 2018-01-14T11:56:31+01:00
 title: "Modèles et hyperparamétres"
+categories: [ia]
+tags: [scikit-learn]
 comments: true
 draft: false
 ---

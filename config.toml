@@ -20,9 +20,9 @@ unsafe = true  # enable raw HTML in Markdown
 
 [params]
 style = "dark"  # default: auto. light: light theme, dark: dark theme, auto: based on system.
-dateFormat = "2 Janvier 2006"  # if unset, default is "2006-01-02"
+dateFormat = "2 Jan 2006"  # if unset, default is "2006-01-02"
 logo = ""  # if you have a logo png
-slogan = "" # "Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifie en rien vos achats"
+slogan = "" # "Ce site comporte des liens affiliés. Ces liens permettent de soutenir ce blog et ne modifient en rien vos achats"
 license = ""  # CC License
 fullRss = false # Puts entire HTML post into rss 'description' tag. If unset, default is false.
 
@@ -41,6 +41,10 @@ darkTheme = "dracula"  # apply this theme in dark mode
 [params.nav]
 showCategories = true       # /categories/
 showTags = true             # /tags/
+
+[[params.nav.custom]]
+title = "Retrouvez-moi sur LinkedIn !"
+url = "https://www.linkedin.com/in/gwenael-nardin/"
 
 [params.assets]
 css = ["css/fonts.css"]

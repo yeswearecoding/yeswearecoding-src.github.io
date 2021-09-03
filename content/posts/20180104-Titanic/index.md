@@ -1,6 +1,8 @@
 ---
 date: 2018-01-04T11:49:45+01:00
-title: "Titanic"
+title: "Débuter en IA : challenge Titanic"
+categories: [ia, python]
+tags: [scikit-learn]
 comments: true
 draft: false
 ---

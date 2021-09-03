@@ -1,5 +1,7 @@
 ---
 title: "A la découverte de MicroPython sur ESP32"
+categories: [embarqué]
+tags: [micropython]
 date: 2018-08-24T07:51:00+01:00
 comments: true
 draft: false

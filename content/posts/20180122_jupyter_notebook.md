@@ -1,5 +1,7 @@
 ---
 title: "Comment et pourquoi utiliser les notebook Jupyter"
+categories: [python]
+tags: [tips, jupyter]
 date: 2018-01-22T18:16:00+01:00
 comments: true
 draft: false

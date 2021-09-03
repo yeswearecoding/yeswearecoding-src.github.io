@@ -1,5 +1,7 @@
 ---
 title: "Cheatsheet de challenge"
+categories: [python]
+tags: [tips]
 date: 2017-12-16T13:37:00+01:00
 comments: true
 draft: false

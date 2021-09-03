@@ -1,5 +1,6 @@
 ---
 title: "Comprendre les décorateurs"
+categories: [python]
 date: 2018-02-06T12:23:00+01:00
 comments: true
 draft: false
