@@ -1,0 +1,39 @@
+baseURL: "http://www.bittenbypython.com/"
+languageCode: "fr-fr"
+title: "Bitten By Python"
+paginate: 10
+theme: "PaperMod"
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: "UA-111329786-1"
+
+
+
+params:
+    env: production
+    title: "Bitten By Python"
+    description: "Je partage mes connaissances avec vous"
+    keywords: [Python, IA, Go, Golang]
+    author: Gwenaël Nardin
+    DateFormat: "2 Jan 2006"
+    defaultTheme: dark # dark, light
+    disableThemeToggle: true
+    ShowReadingTime: false
+    ShowShareButtons: true
+    ShowPostNavLinks: true
+    disableSpecial1stPost: true
+    showtoc: false
+
+    homeInfoParams:
+        Title: "Bitten By Python \U0001F44B"
+        Content: "Python, Go et autre"
+    
+    socialIcons:
+        - name: linkedin
+          url: "https://www.linkedin.com/in/gwenael-nardin/"
+        - name: github
+          url: "https://github.com/yeswearecoding"
