@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>embarqué on Bitten By Python</title>
+    <link>http://www.bittenbypython.com/categories/embarqu%C3%A9/</link>
+    <description>Recent content in embarqué on Bitten By Python</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr-fr</language>
+    <lastBuildDate>Fri, 24 Aug 2018 07:51:00 +0100</lastBuildDate><atom:link href="http://www.bittenbypython.com/categories/embarqu%C3%A9/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A la découverte de MicroPython sur ESP32</title>
+      <link>http://www.bittenbypython.com/posts/20180824_micropython-esp32/</link>
+      <pubDate>Fri, 24 Aug 2018 07:51:00 +0100</pubDate>
+      
+      <guid>http://www.bittenbypython.com/posts/20180824_micropython-esp32/</guid>
+      <description>Hello ! Comme c&amp;rsquo;est les vacances et qu&amp;rsquo;il faut bien s&amp;rsquo;occuper (#geeker) un peu, j&amp;rsquo;ai joué un peu avec MicroPython sur un microcontrôleur de type ESP32. Je me suis basé sur la lecture de Programmer en MicroPython, qui est le seul livre en français sur le sujet. Bon, il y en 2-3 de plus en anglais, mais rien de folichon non plus&amp;hellip;
+Pour le matériel, j&amp;rsquo;ai utilisé ma carte ESP32 Gateway de chez Olimex que j&amp;rsquo;avais sous la main.</description>
+    </item>
+    
+  </channel>
+</rss>
