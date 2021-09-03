@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>vim on Bitten By Python</title>
+    <link>http://www.bittenbypython.com/tags/vim/</link>
+    <description>Recent content in vim on Bitten By Python</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr-fr</language>
+    <lastBuildDate>Sun, 28 Jan 2018 10:09:00 +0100</lastBuildDate><atom:link href="http://www.bittenbypython.com/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Comment (enfin!) utiliser Vim</title>
+      <link>http://www.bittenbypython.com/posts/20180123-vim/</link>
+      <pubDate>Sun, 28 Jan 2018 10:09:00 +0100</pubDate>
+      
+      <guid>http://www.bittenbypython.com/posts/20180123-vim/</guid>
+      <description>Hello !
+Vous connaissez Vim ? Mais si, quand vous êtes sur Linux et que le seul éditeur disponible c&amp;rsquo;est lui ! Quand vous ne comprenez jamais quand est-ce qu&amp;rsquo;il va écrire dans le fichier ou s&amp;rsquo;il va exécuter des commandes&amp;hellip; Vim, ce grand incompris, si difficile à utiliser&amp;hellip;
+Et pourtant, quand vous faites quelques recherches (j&amp;rsquo;ai pas dit RTFM..) pour retrouver ces #!@?!#@! de commandes pour enfin réussir à faire une modif dans un fichier de conf, vous tombez sur pleins d&amp;rsquo;articles où les gens sont heureux depuis qu&amp;rsquo;il maîtrise cet outil du diable !</description>
+    </item>
+    
+  </channel>
+</rss>

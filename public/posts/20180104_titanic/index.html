@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Débuter en IA : challenge Titanic | Bitten By Python</title>
+<meta name="keywords" content="scikit-learn" />
+<meta name="description" content="Hello,
+Après avoir débuté la lecture de Machine Learning avec Scikit-Learn, j&rsquo;ai pris au mot l&rsquo;auteur dès la fin du deuxième chapitre et j&rsquo;ai tenté d&rsquo;appliquer la méthode sur des données &ldquo;réelles&rdquo;.
+J&rsquo;ai donc été sur le site Kaggle qui propose (entre autre) un jeu de données pour débutant autour du Titanic, le but est de prédire les survivants. Bon, on se retrousse les manches, c&rsquo;est parti !
+Découverte des données Récupération des informations L&rsquo;ensemble des données est fourni dans deux fichiers CSV : train.">
+<meta name="author" content="Gwenaël Nardin">
+<link rel="canonical" href="http://www.bittenbypython.com/posts/20180104_titanic/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.b9ff4cc257e914dab489bd18086151800e18f91456a5174bf28489210227a659.css" integrity="sha256-uf9MwlfpFNq0ib0YCGFRgA4Y&#43;RRWpRdL8oSJIQInplk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://www.bittenbypython.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://www.bittenbypython.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://www.bittenbypython.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://www.bittenbypython.com/apple-touch-icon.png">
+<link rel="mask-icon" href="http://www.bittenbypython.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.87.0" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-111329786-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="Débuter en IA : challenge Titanic" />
+<meta property="og:description" content="Hello,
+Après avoir débuté la lecture de Machine Learning avec Scikit-Learn, j&rsquo;ai pris au mot l&rsquo;auteur dès la fin du deuxième chapitre et j&rsquo;ai tenté d&rsquo;appliquer la méthode sur des données &ldquo;réelles&rdquo;.
+J&rsquo;ai donc été sur le site Kaggle qui propose (entre autre) un jeu de données pour débutant autour du Titanic, le but est de prédire les survivants. Bon, on se retrousse les manches, c&rsquo;est parti !
+Découverte des données Récupération des informations L&rsquo;ensemble des données est fourni dans deux fichiers CSV : train." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.bittenbypython.com/posts/20180104_titanic/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-01-04T11:49:45&#43;01:00" />
+<meta property="article:modified_time" content="2018-01-04T11:49:45&#43;01:00" /><meta property="og:site_name" content="Bitten By Python" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Débuter en IA : challenge Titanic"/>
+<meta name="twitter:description" content="Hello,
+Après avoir débuté la lecture de Machine Learning avec Scikit-Learn, j&rsquo;ai pris au mot l&rsquo;auteur dès la fin du deuxième chapitre et j&rsquo;ai tenté d&rsquo;appliquer la méthode sur des données &ldquo;réelles&rdquo;.
+J&rsquo;ai donc été sur le site Kaggle qui propose (entre autre) un jeu de données pour débutant autour du Titanic, le but est de prédire les survivants. Bon, on se retrousse les manches, c&rsquo;est parti !
+Découverte des données Récupération des informations L&rsquo;ensemble des données est fourni dans deux fichiers CSV : train."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://www.bittenbypython.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Débuter en IA : challenge Titanic",
+      "item": "http://www.bittenbypython.com/posts/20180104_titanic/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Débuter en IA : challenge Titanic",
+  "name": "Débuter en IA : challenge Titanic",
+  "description": "Hello,\nAprès avoir débuté la lecture de Machine Learning avec Scikit-Learn, j\u0026rsquo;ai pris au mot l\u0026rsquo;auteur dès la fin du deuxième chapitre et j\u0026rsquo;ai tenté d\u0026rsquo;appliquer la méthode sur des données \u0026ldquo;réelles\u0026rdquo;.\nJ\u0026rsquo;ai donc été sur le site Kaggle qui propose (entre autre) un jeu de données pour débutant autour du Titanic, le but est de prédire les survivants. Bon, on se retrousse les manches, c\u0026rsquo;est parti !\nDécouverte des données Récupération des informations L\u0026rsquo;ensemble des données est fourni dans deux fichiers CSV : train.",
+  "keywords": [
+    "scikit-learn"
+  ],
+  "articleBody": "Hello,\nAprès avoir débuté la lecture de Machine Learning avec Scikit-Learn, j’ai pris au mot l’auteur dès la fin du deuxième chapitre et j’ai tenté d’appliquer la méthode sur des données “réelles”.\nJ’ai donc été sur le site Kaggle qui propose (entre autre) un jeu de données pour débutant autour du Titanic, le but est de prédire les survivants. Bon, on se retrousse les manches, c’est parti !\nDécouverte des données Récupération des informations L’ensemble des données est fourni dans deux fichiers CSV : train.csv pour nous permettre d’entrainer un modèle et test.csv qui nous permettra de valider (ou non) notre algorithme.\nLa librairie Pandas nous permet facilement de charger des fichiers CSV :\nimport pandas as pd titanic = pd.read_csv('train.csv') Regardons ce que contient notre fichier :\ntitanic.head() .dataframe tbody tr th {\rvertical-align: top;\r}\r.dataframe thead th {\rtext-align: right;\r}\r Les données semblent cohérentes, regardons cela un peu plus en détails.\nDescription des données On utilise la fonction info qui nous donne un résumé des différentes variables :\ntitanic.info() class 'pandas.core.frame.DataFrame' RangeIndex: 891 entries, 0 to 890 Data columns (total 12 columns): PassengerId 891 non-null int64 Survived 891 non-null int64 Pclass 891 non-null int64 Name 891 non-null object Sex 891 non-null object Age 714 non-null float64 SibSp 891 non-null int64 Parch 891 non-null int64 Ticket 891 non-null object Fare 891 non-null float64 Cabin 204 non-null object Embarked 889 non-null object dtypes: float64(2), int64(5), object(5) memory usage: 83.6+ KB Chaque valeur représente :\n PassengerID : un numéro d’identifiant Survived : 0 si ce passager n’a pas survécu, 1 dans le cas contraire Pclass : la classe dans laquelle ce passager a voyagé (1, 2 ou 3) Name : le nom Sex : femme ou homme (male ou female) Age : l’âge (en années) SibSp : le nombre de frère, soeur et/ou épouse à bord Parch : le nombre de parent et/ou d’enfant à bord Ticket : numéro du ticket Fare : prix du billet Cabin : numéro de cabine Embarked : port d’embarquement(C = Cherbourg, Q = Queenstown, S = Southampton)  Il y a quelques valeurs qui ne sont pas numériques (Name, Sex, Ticket, Cabin et Embarked). Il faut donc soit s’en séparer, soit les convertir. Ici, je pense me séparer de toutes (ce choix est tout à fait arbitraire, j’estime que ces données ne sont pas pertinentes pour déterminer si oui ou non ce passager survivra) sauf la variable Sex que je vais convertir (plus loin) en une variable binaire (0 ou 1), en associant par exemple female=0 et male=1.\nEdit : au final, ca sera un peu différent avec une colonne pour male (valeur à 1 si c’est un homme, 0 sinon) et une autre pour female avec le même principe.\nIl y a également un autre problème. Il y a 891 passagers répertoriés mais pour la variable Age, il n’y a que 714 valeurs. Il va falloir trouver une solution pour remplir les données manquantes car les algorithmes de machine learning (ML) ne peuvent pas travailler sur des données vides.\nExaminons un peu plus nos données avec la fonction describe qui nous donne un petit tableau récapitulatif de quelques données statistiques de base :\ntitanic.describe() .dataframe tbody tr th {\rvertical-align: top;\r}\r.dataframe thead th {\rtext-align: right;\r}\r On remarque tout d’abord que la fonction élimine toutes les variables non-numériques.\nAutre point, pour Fare, il semble y avoir une valeur maximale très forte (512,3292) au regard de la moyenne (mean) qui est de 32,204. Il faudra donc voir s’il s’agit d’une fausse valeur et si oui, comment on la traite (élimination de celle-ci, remplacement par la moyenne ?).\nHistogrammes des données Pour avoir une vision graphique des valeurs, nous allons utiliser la librairie Matplotlib pour afficher les histogrammes des valeurs numériques :\n# chargement de la librairie dans un notebook Jupyter %matplotlib inline import matplotlib.pyplot as plt titanic.hist(bins=50, figsize=(20,15)) plt.show() Quelques remarques sur ces graphiques  Les âges semblent répartis à peu près de façon gaussienne, on notera toutefois le pic de valeur vers 0 : s’agit-il d’une valeur par défaut ou il y un forte proportion de nouveaux nés dans nos données ? Concernant les tarifs (Fare), on constate de nouveau un pic très important au tout début, ce qui semble écraser les autres valeurs. Il y a une forme de similarité entre Parch et SibSp, il y a peut-être une possibilité de simplifier ces valeurs ?  Pour essayer de répondre à la question 1, utilisons la fonction sort_values à laquelle on va lui demander de nous trier les données selon l’âge (paramètre by=), dans l’ordre croissant (paramètre ascending=True) et seulement les 10 premières valeurs ([:10], fonctionne comme le slicing Python) :\ntitanic.sort_values(by=['Age'], ascending=True)[:10] .dataframe tbody tr th {\rvertical-align: top;\r}\r.dataframe thead th {\rtext-align: right;\r}\r Tout compte fait, il n’y a pas d’incohérence, juste une forte proportion de nouveaux nés à bord.\nDans le même ordre d’idée, regardons les données sur le tarif des billets :\ntitanic.sort_values(by=['Fare'], ascending=False)[:10] .dataframe tbody tr th {\rvertical-align: top;\r}\r.dataframe thead th {\rtext-align: right;\r}\r Finalement, c’est cohérent : les tarifs les plus élevés sont ceux des passagers de la première classe.\nPassons à l’étape suivante !\nRecherche de corrélations Le but est ici de voir s’il n’existe pas de corrélations entre différentes valeurs. On utilise pour cela la fonction corr :\ntitanic.corr() .dataframe tbody tr th {\rvertical-align: top;\r}\r.dataframe thead th {\rtext-align: right;\r}\r On va s’intéresser principalement à la colonne Survived puisqu’il s’agit de notre variable à expliquer. Il y un coefficient de corrélation qui semble intéressant avec Pclass (-0,33), Fare (0,25) et peut-être avec Parch ou Age. Pour regarder cela graphiquement, on utilise la fonction scatter_matrix du module plotting de Pandas :\nfrom pandas.plotting import scatter_matrix attrs = ['Pclass', 'Fare', 'Parch', 'Age'] scatter_matrix(titanic[attrs], figsize=(12,8)) Bon, décevant :(. La colonne Pclass contient que des 1, 2 ou 3, ce qui rassemble les données sur 3 colonnes. A ce stade, je n’en déduit rien qui puisse m’aider à prédire si oui ou non cette personne survivra.\nIl est de temps de passer à la préparation des données afin de pouvoir automatiser tout le processus. Ceci permet dans le cas où des nouvelles données apparaissent, de les mettre directement en forme pour l’algorithme.\nPréparation des données Puisque nous allons utiliser un algorithme d’apprentissage supervisé (puisque nous connaissons les valeurs à obtenir), il nous faut séparer les labels (la réponse attendu en fait) des données :\nlabels = titanic[\"Survived\"] Il faut maintenant préparer les données selon nos observations précédentes, c’est à dire :\n retirer les colonnes Name, Ticket, Cabin, Embarked, et PassengerId qui ne nous sert à rien pour la prédiction; on retire également Survived puisque nous avons récupérer les étiquettes, coder en binaire s’il s’agit de femme ou d’homme, remplir les valeurs d’âge manquantes, étape supplémentaire : recalibrer les données (on en parlera plus loin).  Retirer des colonnes On utilise la fonction drop qui renvoi un Dataframe sans les colonnes voulues :\ndata_without_columns = titanic.drop([\"Name\", \"Ticket\", \"Cabin\", \"Embarked\", \"PassengerId\", \"Survived\"], axis=1) Encoder une variable en binaire La librairie Scikit-Learn possède une fonction LabelBinarizer dans son module de pré-traitement qui permet de réaliser directement cet encodage. Mais le retour de cette fonction un tableau Numpy qu’il faut donc réinjecter dans un Dataframe de Pandas.\nOr Pandas permet également de réaliser cet encodage avec sa fonction get_dummies :\ndata_binarized = pd.get_dummies(data_without_columns, columns=[\"Sex\"]) Valeurs d’âge manquantes Scikit-Learn permet de facilement gérer les données manquantes à l’aide de la fonction imputer. Il suffit de l’instancier avec la stratégie voulue puis appliquer les données à l’instance de classe créée. Elle retourne un tableau Numpy qu’il faut remettre dans un Dataframe de Pandas. Voici comment ça fonctionne :\nfrom sklearn.preprocessing import Imputer imputer = Imputer(strategy=\"median\") X = imputer.fit_transform(data_binarized) # reinject in pandas.Dataframe:  data_median = pd.DataFrame(X, columns=data_binarized.columns) Jetons un coup d’oeil à nos données :\ndata_median.info() RangeIndex: 891 entries, 0 to 890 Data columns (total 7 columns): Pclass 891 non-null float64 Age 891 non-null float64 SibSp 891 non-null float64 Parch 891 non-null float64 Fare 891 non-null float64 Sex_female 891 non-null float64 Sex_male 891 non-null float64 dtypes: float64(7) memory usage: 48.8 KB\nC’est plutôt satisfaisant ! Attaquons-nous maintenant à la recalibration des données : j’utilise ici la standardization (in english, en français la normalisation) qui permet de mettre toutes les valeurs à la même échelle, afin de respecter les contraintes des algorithmes. Scikit-Learn propose un transformateur pour cela : StandardScaler du module preprocessing. Comme les autres fonctions, le retour est un tableau Numpy, que l’on remet sous le format pd.Dataframe :\nfrom sklearn.preprocessing import StandardScaler std = StandardScaler() X = std.fit_transform(data_median) data_std = pd.DataFrame(X, columns=data_median.columns) data_std.head() .dataframe tbody tr th {\rvertical-align: top;\r}\r.dataframe thead th {\rtext-align: right;\r}\r Nos données sont maintenant prêtes à être fournies aux algorithmes de machine learning ; elles ne ressemblent plus vraiment aux données d’origine (cf le résultat de la fonction head ci-dessus) mais elles sont conformes à ce qu’attendent ces algorithmes.\nNote sur la partie “Préparation des données” L’état de l’art aurait voulu que j’utilise des Pipeline afin de réaliser la préparation des données et permettre l’automatisation de cette tâche. Je ne l’ai pas fait içi pour principalement deux raisons :\n Je découvre le machine learning et j’applique pas à pas la méthode du livre cité au début de l’article : chaque chose en son temps (même si les Pipeline y sont expliqués). Je n’aurais pas de nouvelles données et je ne mettrais donc pas en production le résultat de cette étude.  Mais dans un cadre réel, il faudra automatiser toute cette partie afin de mettre à jour facilement les données afin d’augmenter la performance de l’algorithme choisi.\nChoix et entrainement d’un modèle Pour mémoire, nos données sont dans la variable data_std et les étiquettes dans labels. La librairie Scikit-Learn nous donne un certain nombre de modèle, nous allons donc tester nos valeurs sur certains d’entre-eux :\nLinearRegression Pour utiliser la régression linéaire, il suffit d’instancier le modèle LinearRegression puis de l’entrainer avec nos valeurs comme ceci :\nfrom sklearn.linear_model import LinearRegression linreg = LinearRegression() linreg.fit(data_std, labels) LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)\r Score Il nous faut maintenant évaluer nos résultats. Pour ce faire, j’utilise la validation croisée en K passes en appliquant la fonction cross_val_score du module model_selection. Cette fonction permet de découper aléatoirement le jeu d’entrainement en K morceaux, ce qui permet de faire plus d’entrainement (au nombre de K).\nimport numpy as np from sklearn.model_selection import cross_val_score linreg_score = cross_val_score(linreg, data_std, labels, scoring=\"neg_mean_squared_error\", cv=10) linreg_rmse = np.sqrt(-linreg_score) print(linreg_rmse) print(\"Moyenne\", linreg_rmse.mean()) print(\"Ecart-type\", linreg_rmse.std()) [ 0.38779897 0.37348749 0.39836752 0.39084261 0.38957355 0.37855029 0.39663624 0.40125233 0.32840724 0.37762877] Moyenne 0.382254499421 Ecart-type 0.0199923822969\nOn obtient une moyenne de la racine carrée de l’erreur quadratique moyenne (RMSE) de 0.38 ; nous, nous cherchons à obtenir une valeur d’erreur la plus petite possible\nEssayons avec un autre algorithme :\nDecisionTreeRegressor Même chose avec le modèle DecisionTreeRegressor :\nfrom sklearn.tree import DecisionTreeRegressor treereg = DecisionTreeRegressor() treereg.fit(data_std, labels) DecisionTreeRegressor(criterion='mse', max_depth=None, max_features=None,\rmax_leaf_nodes=None, min_impurity_decrease=0.0,\rmin_impurity_split=None, min_samples_leaf=1,\rmin_samples_split=2, min_weight_fraction_leaf=0.0,\rpresort=False, random_state=None, splitter='best')\r On notera ici la présence de nombreux hyperparamètres, chacun peut permettre d’affiner le résultat obtenu. Ces hyperparamètres ne se règlent qu’une fois le bon modèle trouvé !\nScore De la même manière :\ntreereg_score = cross_val_score(treereg, data_std, labels, scoring=\"neg_mean_squared_error\", cv=10) treereg_rmse = np.sqrt(-treereg_score) print(treereg_rmse) print(\"Moyenne\", treereg_rmse.mean()) print(\"Ecart-type\", treereg_rmse.std()) [ 0.4868645 0.47942838 0.51979766 0.4747034 0.44699689 0.40609775 0.45067181 0.50280114 0.43673578 0.39404905] Moyenne 0.45981463686 Ecart-type 0.0384382715703\nAh ! C’est encore moins bien ! Essayons un autre :\nRandomForestRegressor Nouvel essai avec RandomForestRegressor :\nfrom sklearn.ensemble import RandomForestRegressor forest = RandomForestRegressor() forest.fit(data_std, labels) RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,\rmax_features='auto', max_leaf_nodes=None,\rmin_impurity_decrease=0.0, min_impurity_split=None,\rmin_samples_leaf=1, min_samples_split=2,\rmin_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,\roob_score=False, random_state=None, verbose=0, warm_start=False)\r Score Et de même :\nforest_score = cross_val_score(forest, data_std, labels, scoring=\"neg_mean_squared_error\", cv=10) forest_rmse = np.sqrt(-forest_score) print(forest_rmse) print(\"Moyenne\", forest_rmse.mean()) print(\"Ecart-type\", forest_rmse.std()) [ 0.45047666 0.39228221 0.44474933 0.36923691 0.35309265 0.36961988 0.4282808 0.41886481 0.34147062 0.33537571] Moyenne 0.390344958784 Ecart-type 0.0406264102691\nC’est à peine mieux qu’une régression linéaire…\nAffiner son modèle Maintenant que nous avons testé 3 modèles différents, nous pouvons tenter d’en améliorer un (je choisis ici le dernier, le RandomForestRegressor) en optimisant ses hyperparamètres. On va donc effectuer une recherche aléatoire par quadrillage sur quelques paramètres en utilisant la fonction RandomizedSearchCV :\n%%time from sklearn.model_selection import RandomizedSearchCV from scipy.stats import randint param_dist = {\"n_estimators\": randint(20, 50), \"max_features\": randint(2, 8), \"bootstrap\": [True]} forest = RandomForestRegressor() grid = RandomizedSearchCV(forest, param_dist, cv=20, scoring=\"neg_mean_squared_error\") grid.fit(data_std, labels) CPU times: user 20.5 s, sys: 99.9 ms, total: 20.6 s Wall time: 20.7 s\n%%time permet d’afficher le temps d’exécution d’une cellule dans un notebook de Jupyter. Ici, presque 18 secondes sur ma machine pour tester 20 (cv=) combinaisons.\nOn maintenant affiche les meilleurs paramètres trouvés :\nprint(grid.best_estimator_) print(\"Score : \", np.sqrt(-grid.best_score_)) RandomForestRegressor(bootstrap=True, criterion=‘mse’, max_depth=None, max_features=3, max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None, min_samples_leaf=1, min_samples_split=2, min_weight_fraction_leaf=0.0, n_estimators=45, n_jobs=1, oob_score=False, random_state=None, verbose=0, warm_start=False) Score : 0.370268736285\nOn améliore un peu le résultat final ! C’est plutôt bien, sachant que l’on joue ici que sur 3 paramètres. On obtient un score au final meilleur que la régression linéaire testée en premier.\nConclusion Voilà, c’est fini pour ce premier essai en machine learning, avec des données réelles. Même si le résultat final n’est pas hyper précis, j’ai quand même appris plusieurs choses :\n la préparation des données est une tâche à part entière, qui occupe une bonne part de l’analyse, après deux chapitres, j’en ai appris beaucoup sur le l’apprentissage automatique, ce qui me met l’eau à la bouche pour la suite de ce livre (pour mémoire : Machine Learning avec Scikit-Learn), j’ai finalement apprécié de travailler dans un notebook de Jupyter, il y a pas mal de fonctionnalités intéressantes lorsque l’on fait du pas-à-pas avec son code,  J’ai maintenant hâte de continuer pour mieux comprendre le fonctionnement des algorithmes et comment les choisirs en fonction des besoins.\nA bientôt pour la suite :)\n",
+  "wordCount" : "2298",
+  "inLanguage": "en",
+  "datePublished": "2018-01-04T11:49:45+01:00",
+  "dateModified": "2018-01-04T11:49:45+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Gwenaël Nardin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://www.bittenbypython.com/posts/20180104_titanic/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bitten By Python",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://www.bittenbypython.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class=" dark" id="top">
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://www.bittenbypython.com/" accesskey="h" title="Bitten By Python (Alt + H)">Bitten By Python</a>
+            <span class="logo-switches">
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Débuter en IA : challenge Titanic
+    </h1>
+    <div class="post-meta">4 Jan 2018&nbsp;·&nbsp;Gwenaël Nardin
+</div>
+  </header> 
+  <div class="post-content"><p>Hello,</p>
+<p>Après avoir débuté la lecture de <a href="https://www.amazon.fr/gp/product/210076540X/ref=as_li_tl?ie=UTF8&amp;camp=1642&amp;creative=6746&amp;creativeASIN=210076540X&amp;linkCode=as2&amp;tag=deslivrepourm-21&amp;linkId=a6c3ed7805af63613aaef46c12c5d31d%22">Machine Learning avec Scikit-Learn</a>, j&rsquo;ai pris au mot l&rsquo;auteur dès la fin du deuxième chapitre et j&rsquo;ai tenté d&rsquo;appliquer la méthode sur des données &ldquo;réelles&rdquo;.<br>
+J&rsquo;ai donc été sur le site <a href="https://www.kaggle.com/c/titanic">Kaggle</a> qui propose (entre autre) un jeu de données pour débutant autour du Titanic, le but est de prédire les survivants. Bon, on se retrousse les manches, c&rsquo;est parti !</p>
+<h1 id="découverte-des-données">Découverte des données<a hidden class="anchor" aria-hidden="true" href="#découverte-des-données">#</a></h1>
+<h2 id="récupération-des-informations">Récupération des informations<a hidden class="anchor" aria-hidden="true" href="#récupération-des-informations">#</a></h2>
+<p>L&rsquo;ensemble des données est fourni dans deux fichiers CSV : <em>train.csv</em> pour nous permettre d&rsquo;entrainer un modèle et <em>test.csv</em> qui nous permettra de valider (ou non) notre algorithme.</p>
+<p>La librairie <a href="https://pandas.pydata.org/">Pandas</a> nous permet facilement de charger des fichiers CSV :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+
+titanic <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;train.csv&#39;</span>)
+</code></pre></div><p>Regardons ce que contient notre fichier :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titanic<span style="color:#f92672">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>Les données semblent cohérentes, regardons cela un peu plus en détails.</p>
+<h2 id="description-des-données">Description des données<a hidden class="anchor" aria-hidden="true" href="#description-des-données">#</a></h2>
+<p>On utilise la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.info.html">info</a> qui nous donne un résumé des différentes variables :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titanic<span style="color:#f92672">.</span>info()
+
+<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">pandas</span><span style="color:#f92672">.</span>core<span style="color:#f92672">.</span>frame<span style="color:#f92672">.</span>DataFrame<span style="color:#e6db74">&#39;&gt;</span>
+RangeIndex: <span style="color:#ae81ff">891</span> entries, <span style="color:#ae81ff">0</span> to <span style="color:#ae81ff">890</span>
+Data columns (total <span style="color:#ae81ff">12</span> columns):
+PassengerId    <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null int64
+Survived       <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null int64
+Pclass         <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null int64
+Name           <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null object
+Sex            <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null object
+Age            <span style="color:#ae81ff">714</span> non<span style="color:#f92672">-</span>null float64
+SibSp          <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null int64
+Parch          <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null int64
+Ticket         <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null object
+Fare           <span style="color:#ae81ff">891</span> non<span style="color:#f92672">-</span>null float64
+Cabin          <span style="color:#ae81ff">204</span> non<span style="color:#f92672">-</span>null object
+Embarked       <span style="color:#ae81ff">889</span> non<span style="color:#f92672">-</span>null object
+dtypes: float64(<span style="color:#ae81ff">2</span>), int64(<span style="color:#ae81ff">5</span>), object(<span style="color:#ae81ff">5</span>)
+memory usage: <span style="color:#ae81ff">83.6</span><span style="color:#f92672">+</span> KB
+</code></pre></div><p>Chaque valeur représente :</p>
+<ul>
+<li>PassengerID : un numéro d&rsquo;identifiant</li>
+<li>Survived : 0 si ce passager n&rsquo;a pas survécu, 1 dans le cas contraire</li>
+<li>Pclass : la classe dans laquelle ce passager a voyagé (1, 2 ou 3)</li>
+<li>Name : le nom</li>
+<li>Sex : femme ou homme (male ou female)</li>
+<li>Age : l&rsquo;âge (en années)</li>
+<li>SibSp : le nombre de frère, soeur et/ou épouse à bord</li>
+<li>Parch : le nombre de parent et/ou d&rsquo;enfant à bord</li>
+<li>Ticket : numéro du ticket</li>
+<li>Fare : prix du billet</li>
+<li>Cabin : numéro de cabine</li>
+<li>Embarked : port d&rsquo;embarquement(C = Cherbourg, Q = Queenstown, S = Southampton)</li>
+</ul>
+<p>Il y a quelques valeurs qui ne sont pas numériques (<em>Name</em>, <em>Sex</em>, <em>Ticket</em>, <em>Cabin</em> et <em>Embarked</em>). Il faut donc soit s&rsquo;en séparer, soit les convertir. Ici, je pense me séparer de toutes (ce choix est tout à fait arbitraire, j&rsquo;estime que ces données ne sont pas pertinentes pour déterminer si oui ou non ce passager survivra) sauf la variable <em>Sex</em> que je vais convertir (plus loin) en une variable binaire (0 ou 1), en associant par exemple female=0 et male=1.<br>
+<em>Edit</em> : au final, ca sera un peu différent avec une colonne pour <em>male</em> (valeur à 1 si c&rsquo;est un homme, 0 sinon) et une autre pour <em>female</em> avec le même principe.</p>
+<p>Il y a également un autre problème. Il y a 891 passagers répertoriés mais pour la variable <em>Age</em>, il n&rsquo;y a que 714 valeurs. Il va falloir trouver une solution pour remplir les données manquantes car les algorithmes de machine learning (ML) ne peuvent pas travailler sur des données vides.</p>
+<p>Examinons un peu plus nos données avec la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.describe.html">describe</a> qui nous donne un petit tableau récapitulatif de quelques données statistiques de base :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titanic<span style="color:#f92672">.</span>describe()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>On remarque tout d&rsquo;abord que la fonction élimine toutes les variables non-numériques.<br>
+Autre point, pour <em>Fare</em>, il semble y avoir une valeur maximale très forte (512,3292) au regard de la moyenne (<em>mean</em>) qui est de 32,204. Il faudra donc voir s&rsquo;il s&rsquo;agit d&rsquo;une fausse valeur et si oui, comment on la traite (élimination de celle-ci, remplacement par la moyenne ?).</p>
+<h3 id="histogrammes-des-données">Histogrammes des données<a hidden class="anchor" aria-hidden="true" href="#histogrammes-des-données">#</a></h3>
+<p>Pour avoir une vision graphique des valeurs, nous allons utiliser la librairie <a href="https://matplotlib.org/">Matplotlib</a> pour afficher les histogrammes des valeurs numériques :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># chargement de la librairie dans un notebook Jupyter</span>
+<span style="color:#f92672">%</span>matplotlib inline  
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+
+titanic<span style="color:#f92672">.</span>hist(bins<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">15</span>))
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img loading="lazy" src="/static/img/Titanic_0.png" alt="png"  />
+</p>
+<h4 id="quelques-remarques-sur-ces-graphiques">Quelques remarques sur ces graphiques<a hidden class="anchor" aria-hidden="true" href="#quelques-remarques-sur-ces-graphiques">#</a></h4>
+<ol>
+<li>Les âges semblent répartis à peu près de façon gaussienne, on notera toutefois le pic de valeur vers 0 : s&rsquo;agit-il d&rsquo;une valeur par défaut ou il y un forte proportion de nouveaux nés dans nos données ?</li>
+<li>Concernant les tarifs (<em>Fare</em>), on constate de nouveau un pic très important au tout début, ce qui semble écraser les autres valeurs.</li>
+<li>Il y a une forme de similarité entre <em>Parch</em> et <em>SibSp</em>, il y a peut-être une possibilité de simplifier ces valeurs ?</li>
+</ol>
+<p>Pour essayer de répondre à la question 1, utilisons la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.sort_values.html">sort_values</a> à laquelle on va lui demander de nous trier les données selon l&rsquo;âge (paramètre <em>by=</em>), dans l&rsquo;ordre croissant (paramètre <em>ascending=True</em>) et seulement les 10 premières valeurs (<em>[:10]</em>, fonctionne comme le <em>slicing</em> Python) :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titanic<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Age&#39;</span>], ascending<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)[:<span style="color:#ae81ff">10</span>]
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>Tout compte fait, il n&rsquo;y a pas d&rsquo;incohérence, juste une forte proportion de nouveaux nés à bord.</p>
+<p>Dans le même ordre d&rsquo;idée, regardons les données sur le tarif des billets :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titanic<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Fare&#39;</span>], ascending<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)[:<span style="color:#ae81ff">10</span>]
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>Finalement, c&rsquo;est cohérent : les tarifs les plus élevés sont ceux des passagers de la première classe.</p>
+<p>Passons à l&rsquo;étape suivante !</p>
+<h2 id="recherche-de-corrélations">Recherche de corrélations<a hidden class="anchor" aria-hidden="true" href="#recherche-de-corrélations">#</a></h2>
+<p>Le but est ici de voir s&rsquo;il n&rsquo;existe pas de corrélations entre différentes valeurs. On utilise pour cela la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html">corr</a> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titanic<span style="color:#f92672">.</span>corr()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>On va s&rsquo;intéresser principalement à la colonne <em>Survived</em> puisqu&rsquo;il s&rsquo;agit de notre variable à expliquer. Il y un coefficient de corrélation qui semble intéressant avec <em>Pclass</em> (-0,33), <em>Fare</em> (0,25) et peut-être avec <em>Parch</em> ou <em>Age</em>. Pour regarder cela graphiquement, on utilise la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/visualization.html#scatter-matrix-plot">scatter_matrix</a> du module <em>plotting</em> de <em>Pandas</em> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pandas.plotting <span style="color:#f92672">import</span> scatter_matrix
+
+attrs <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Pclass&#39;</span>, <span style="color:#e6db74">&#39;Fare&#39;</span>, <span style="color:#e6db74">&#39;Parch&#39;</span>, <span style="color:#e6db74">&#39;Age&#39;</span>]
+scatter_matrix(titanic[attrs], figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">8</span>))
+</code></pre></div><p><img loading="lazy" src="/static/img/Titanic_1.png" alt="png"  />
+</p>
+<p>Bon, décevant :(. La colonne <em>Pclass</em> contient que des 1, 2 ou 3, ce qui rassemble les données sur 3 colonnes. A ce stade, je n&rsquo;en déduit rien qui puisse m&rsquo;aider à prédire si oui ou non cette personne survivra.<br>
+Il est de temps de passer à la préparation des données afin de pouvoir automatiser tout le processus. Ceci permet dans le cas où des nouvelles données apparaissent, de les mettre directement en forme pour l&rsquo;algorithme.</p>
+<h1 id="préparation-des-données">Préparation des données<a hidden class="anchor" aria-hidden="true" href="#préparation-des-données">#</a></h1>
+<p>Puisque nous allons utiliser un algorithme d&rsquo;apprentissage supervisé (puisque nous connaissons les valeurs à obtenir), il nous faut séparer les <em>labels</em> (la réponse attendu en fait) des données :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">labels <span style="color:#f92672">=</span> titanic[<span style="color:#e6db74">&#34;Survived&#34;</span>]
+</code></pre></div><p>Il faut maintenant préparer les données selon nos observations précédentes, c&rsquo;est à dire :</p>
+<ol>
+<li>retirer les colonnes <em>Name</em>, <em>Ticket</em>, <em>Cabin</em>, <em>Embarked</em>, et <em>PassengerId</em> qui ne nous sert à rien pour la prédiction; on retire également <em>Survived</em> puisque nous avons récupérer les étiquettes,</li>
+<li>coder en binaire s&rsquo;il s&rsquo;agit de femme ou d&rsquo;homme,</li>
+<li>remplir les valeurs d&rsquo;âge manquantes,</li>
+<li>étape supplémentaire : recalibrer les données (on en parlera plus loin).</li>
+</ol>
+<h2 id="retirer-des-colonnes">Retirer des colonnes<a hidden class="anchor" aria-hidden="true" href="#retirer-des-colonnes">#</a></h2>
+<p>On utilise la fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop.html">drop</a> qui renvoi un <em>Dataframe</em> sans les colonnes voulues :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data_without_columns <span style="color:#f92672">=</span> titanic<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#34;Name&#34;</span>, <span style="color:#e6db74">&#34;Ticket&#34;</span>, <span style="color:#e6db74">&#34;Cabin&#34;</span>, <span style="color:#e6db74">&#34;Embarked&#34;</span>, <span style="color:#e6db74">&#34;PassengerId&#34;</span>, <span style="color:#e6db74">&#34;Survived&#34;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</code></pre></div><h2 id="encoder-une-variable-en-binaire">Encoder une variable en binaire<a hidden class="anchor" aria-hidden="true" href="#encoder-une-variable-en-binaire">#</a></h2>
+<p>La librairie <a href="http://scikit-learn.org/stable/index.html">Scikit-Learn</a> possède une fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelBinarizer.html">LabelBinarizer</a> dans son module de pré-traitement qui permet de réaliser directement cet encodage. Mais le retour de cette fonction un tableau <em>Numpy</em> qu&rsquo;il faut donc réinjecter dans un <em>Dataframe</em> de <strong>Pandas</strong>.<br>
+Or <strong>Pandas</strong> permet également de réaliser cet encodage avec sa fonction <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html">get_dummies</a> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data_binarized <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>get_dummies(data_without_columns, columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;Sex&#34;</span>])
+</code></pre></div><h2 id="valeurs-dâge-manquantes">Valeurs d&rsquo;âge manquantes<a hidden class="anchor" aria-hidden="true" href="#valeurs-dâge-manquantes">#</a></h2>
+<p><strong>Scikit-Learn</strong> permet de facilement gérer les données manquantes à l&rsquo;aide de la fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html">imputer</a>. Il suffit de l&rsquo;instancier avec la stratégie voulue puis appliquer les données à l&rsquo;instance de classe créée. Elle retourne un tableau <em>Numpy</em> qu&rsquo;il faut remettre dans un <em>Dataframe</em> de <strong>Pandas</strong>.  <br>
+Voici comment ça fonctionne :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> Imputer
+
+imputer <span style="color:#f92672">=</span> Imputer(strategy<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;median&#34;</span>)
+X <span style="color:#f92672">=</span> imputer<span style="color:#f92672">.</span>fit_transform(data_binarized)
+<span style="color:#75715e"># reinject in pandas.Dataframe: </span>
+data_median <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(X, columns<span style="color:#f92672">=</span>data_binarized<span style="color:#f92672">.</span>columns)
+</code></pre></div><p>Jetons un coup d&rsquo;oeil à nos données :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data_median<span style="color:#f92672">.</span>info()
+</code></pre></div><p>&lt;class &lsquo;pandas.core.frame.DataFrame&rsquo;&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 7 columns):
+Pclass        891 non-null float64
+Age           891 non-null float64
+SibSp         891 non-null float64
+Parch         891 non-null float64
+Fare          891 non-null float64
+Sex_female    891 non-null float64
+Sex_male      891 non-null float64
+dtypes: float64(7)
+memory usage: 48.8 KB</p>
+<p>C&rsquo;est plutôt satisfaisant ! Attaquons-nous maintenant à la recalibration des données : j&rsquo;utilise ici la <em>standardization</em> (in english, en français la normalisation) qui permet de mettre toutes les valeurs à la même échelle, afin de respecter les contraintes des algorithmes. <br>
+<strong>Scikit-Learn</strong> propose un transformateur pour cela : <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html">StandardScaler</a> du module <em>preprocessing</em>. Comme les autres fonctions, le retour est un tableau <em>Numpy</em>, que l&rsquo;on remet sous le format <em>pd.Dataframe</em> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> StandardScaler
+
+std <span style="color:#f92672">=</span> StandardScaler()
+X <span style="color:#f92672">=</span> std<span style="color:#f92672">.</span>fit_transform(data_median)
+data_std <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(X, columns<span style="color:#f92672">=</span>data_median<span style="color:#f92672">.</span>columns)
+
+data_std<span style="color:#f92672">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>Nos données sont maintenant prêtes à être fournies aux algorithmes de machine learning ; elles ne ressemblent plus vraiment aux données d&rsquo;origine (<em>cf</em> le résultat de la fonction <em>head</em> ci-dessus) mais elles sont conformes à ce qu&rsquo;attendent ces algorithmes.</p>
+<h2 id="note-sur-la-partie-préparation-des-données">Note sur la partie &ldquo;Préparation des données&rdquo;<a hidden class="anchor" aria-hidden="true" href="#note-sur-la-partie-préparation-des-données">#</a></h2>
+<p>L&rsquo;état de l&rsquo;art aurait voulu que j&rsquo;utilise des <a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html">Pipeline</a> afin de réaliser la préparation des données et permettre l&rsquo;automatisation de cette tâche. Je ne l&rsquo;ai pas fait içi pour principalement deux raisons :</p>
+<ol>
+<li>Je découvre le <em>machine learning</em> et j&rsquo;applique pas à pas la méthode du livre cité au début de l&rsquo;article : chaque chose en son temps (même si les <em>Pipeline</em> y sont expliqués).</li>
+<li>Je n&rsquo;aurais pas de nouvelles données et je ne mettrais donc pas en production le résultat de cette étude.</li>
+</ol>
+<p>Mais dans un cadre réel, il faudra automatiser toute cette partie afin de mettre à jour facilement les données afin d&rsquo;augmenter la performance de l&rsquo;algorithme choisi.</p>
+<h1 id="choix-et-entrainement-dun-modèle">Choix et entrainement d&rsquo;un modèle<a hidden class="anchor" aria-hidden="true" href="#choix-et-entrainement-dun-modèle">#</a></h1>
+<p>Pour mémoire, nos données sont dans la variable <em>data_std</em> et les étiquettes dans <em>labels</em>. La librairie <strong>Scikit-Learn</strong> nous donne un certain nombre de modèle, nous allons donc tester nos valeurs sur certains d&rsquo;entre-eux :</p>
+<h2 id="linearregression">LinearRegression<a hidden class="anchor" aria-hidden="true" href="#linearregression">#</a></h2>
+<p>Pour utiliser la régression linéaire, il suffit d&rsquo;instancier le modèle <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html">LinearRegression</a> puis de l&rsquo;entrainer avec nos valeurs comme ceci :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.linear_model <span style="color:#f92672">import</span> LinearRegression
+
+linreg <span style="color:#f92672">=</span> LinearRegression()
+linreg<span style="color:#f92672">.</span>fit(data_std, labels)
+</code></pre></div><pre><code>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+</code></pre>
+<h3 id="score">Score<a hidden class="anchor" aria-hidden="true" href="#score">#</a></h3>
+<p>Il nous faut maintenant évaluer nos résultats. Pour ce faire, j&rsquo;utilise la <em>validation croisée en K passes</em> en appliquant la fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html">cross_val_score</a> du module <em>model_selection</em>. Cette fonction permet de découper aléatoirement le jeu d&rsquo;entrainement en K morceaux, ce qui permet de faire plus d&rsquo;entrainement (au nombre de K).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+<span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> cross_val_score
+
+linreg_score <span style="color:#f92672">=</span> cross_val_score(linreg, data_std, labels, scoring<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;neg_mean_squared_error&#34;</span>, cv<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+linreg_rmse <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sqrt(<span style="color:#f92672">-</span>linreg_score)
+
+print(linreg_rmse)
+print(<span style="color:#e6db74">&#34;Moyenne&#34;</span>, linreg_rmse<span style="color:#f92672">.</span>mean())
+print(<span style="color:#e6db74">&#34;Ecart-type&#34;</span>, linreg_rmse<span style="color:#f92672">.</span>std())
+</code></pre></div><p>[ 0.38779897  0.37348749  0.39836752  0.39084261  0.38957355  0.37855029
+0.39663624  0.40125233  0.32840724  0.37762877]
+Moyenne 0.382254499421
+Ecart-type 0.0199923822969</p>
+<p>On obtient une moyenne de la racine carrée de l&rsquo;erreur quadratique moyenne (RMSE) de 0.38 ; nous, nous cherchons à obtenir une valeur d&rsquo;erreur la plus petite possible<br>
+Essayons avec un autre algorithme :</p>
+<h2 id="decisiontreeregressor">DecisionTreeRegressor<a hidden class="anchor" aria-hidden="true" href="#decisiontreeregressor">#</a></h2>
+<p>Même chose avec le modèle <a href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html">DecisionTreeRegressor</a> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.tree <span style="color:#f92672">import</span> DecisionTreeRegressor
+
+treereg <span style="color:#f92672">=</span> DecisionTreeRegressor()
+treereg<span style="color:#f92672">.</span>fit(data_std, labels)
+</code></pre></div><pre><code>DecisionTreeRegressor(criterion='mse', max_depth=None, max_features=None,
+           max_leaf_nodes=None, min_impurity_decrease=0.0,
+           min_impurity_split=None, min_samples_leaf=1,
+           min_samples_split=2, min_weight_fraction_leaf=0.0,
+           presort=False, random_state=None, splitter='best')
+</code></pre>
+<p>On notera ici la présence de nombreux hyperparamètres, chacun peut permettre d&rsquo;affiner le résultat obtenu. Ces hyperparamètres ne se règlent qu&rsquo;une fois le bon modèle trouvé !</p>
+<h3 id="score-1">Score<a hidden class="anchor" aria-hidden="true" href="#score-1">#</a></h3>
+<p>De la même manière :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">treereg_score <span style="color:#f92672">=</span> cross_val_score(treereg, data_std, labels, scoring<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;neg_mean_squared_error&#34;</span>, cv<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+treereg_rmse <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sqrt(<span style="color:#f92672">-</span>treereg_score)
+
+print(treereg_rmse)
+print(<span style="color:#e6db74">&#34;Moyenne&#34;</span>, treereg_rmse<span style="color:#f92672">.</span>mean())
+print(<span style="color:#e6db74">&#34;Ecart-type&#34;</span>, treereg_rmse<span style="color:#f92672">.</span>std())
+</code></pre></div><p>[ 0.4868645   0.47942838  0.51979766  0.4747034   0.44699689  0.40609775
+0.45067181  0.50280114  0.43673578  0.39404905]
+Moyenne 0.45981463686
+Ecart-type 0.0384382715703</p>
+<p>Ah ! C&rsquo;est encore moins bien !
+Essayons un autre :</p>
+<h2 id="randomforestregressor">RandomForestRegressor<a hidden class="anchor" aria-hidden="true" href="#randomforestregressor">#</a></h2>
+<p>Nouvel essai avec <a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">RandomForestRegressor</a> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> RandomForestRegressor
+
+forest <span style="color:#f92672">=</span> RandomForestRegressor()
+forest<span style="color:#f92672">.</span>fit(data_std, labels)
+</code></pre></div><pre><code>RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features='auto', max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+           oob_score=False, random_state=None, verbose=0, warm_start=False)
+</code></pre>
+<h3 id="score-2">Score<a hidden class="anchor" aria-hidden="true" href="#score-2">#</a></h3>
+<p>Et de même :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">forest_score <span style="color:#f92672">=</span> cross_val_score(forest, data_std, labels, scoring<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;neg_mean_squared_error&#34;</span>, cv<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+forest_rmse <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sqrt(<span style="color:#f92672">-</span>forest_score)
+
+print(forest_rmse)
+print(<span style="color:#e6db74">&#34;Moyenne&#34;</span>, forest_rmse<span style="color:#f92672">.</span>mean())
+print(<span style="color:#e6db74">&#34;Ecart-type&#34;</span>, forest_rmse<span style="color:#f92672">.</span>std())
+</code></pre></div><p>[ 0.45047666  0.39228221  0.44474933  0.36923691  0.35309265  0.36961988
+0.4282808   0.41886481  0.34147062  0.33537571]
+Moyenne 0.390344958784
+Ecart-type 0.0406264102691</p>
+<p>C&rsquo;est à peine mieux qu&rsquo;une régression linéaire&hellip;</p>
+<h1 id="affiner-son-modèle">Affiner son modèle<a hidden class="anchor" aria-hidden="true" href="#affiner-son-modèle">#</a></h1>
+<p>Maintenant que nous avons testé 3 modèles différents, nous pouvons tenter d&rsquo;en améliorer un (je choisis ici le dernier, le <em>RandomForestRegressor</em>) en optimisant ses hyperparamètres. On va donc effectuer une recherche aléatoire par quadrillage sur quelques paramètres en utilisant la fonction <a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html">RandomizedSearchCV</a> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%%</span>time
+<span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> RandomizedSearchCV
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> randint
+
+param_dist <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;n_estimators&#34;</span>: randint(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">50</span>),
+                <span style="color:#e6db74">&#34;max_features&#34;</span>: randint(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">8</span>),
+                <span style="color:#e6db74">&#34;bootstrap&#34;</span>: [<span style="color:#66d9ef">True</span>]}
+
+forest <span style="color:#f92672">=</span> RandomForestRegressor()
+grid <span style="color:#f92672">=</span> RandomizedSearchCV(forest, param_dist, cv<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>, scoring<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;neg_mean_squared_error&#34;</span>)
+grid<span style="color:#f92672">.</span>fit(data_std, labels)
+</code></pre></div><p>CPU times: user 20.5 s, sys: 99.9 ms, total: 20.6 s
+Wall time: 20.7 s</p>
+<p><code>%%time</code> permet d&rsquo;afficher le temps d&rsquo;exécution d&rsquo;une cellule dans un <em>notebook</em> de Jupyter. Ici, presque 18 secondes sur ma machine pour tester 20 (<em>cv=</em>) combinaisons.</p>
+<p>On maintenant affiche les meilleurs paramètres trouvés :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">print(grid<span style="color:#f92672">.</span>best_estimator_)
+print(<span style="color:#e6db74">&#34;Score : &#34;</span>, np<span style="color:#f92672">.</span>sqrt(<span style="color:#f92672">-</span>grid<span style="color:#f92672">.</span>best_score_))
+</code></pre></div><p>RandomForestRegressor(bootstrap=True, criterion=&lsquo;mse&rsquo;, max_depth=None,
+max_features=3, max_leaf_nodes=None, min_impurity_decrease=0.0,
+min_impurity_split=None, min_samples_leaf=1,
+min_samples_split=2, min_weight_fraction_leaf=0.0,
+n_estimators=45, n_jobs=1, oob_score=False, random_state=None,
+verbose=0, warm_start=False)
+Score :  0.370268736285</p>
+<p>On améliore un peu le résultat final ! C&rsquo;est plutôt bien, sachant que l&rsquo;on joue ici que sur 3 paramètres. On obtient un score au final meilleur que la régression linéaire testée en premier.</p>
+<h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
+<p>Voilà, c&rsquo;est fini pour ce premier essai en <em>machine learning</em>, avec des données réelles. Même si le résultat final n&rsquo;est pas hyper précis, j&rsquo;ai quand même appris plusieurs choses :</p>
+<ul>
+<li>la préparation des données est une tâche à part entière, qui occupe une bonne part de l&rsquo;analyse,</li>
+<li>après deux chapitres, j&rsquo;en ai appris beaucoup sur le l&rsquo;apprentissage automatique, ce qui me met l&rsquo;eau à la bouche pour la suite de ce livre (pour mémoire : <a href="https://www.amazon.fr/gp/product/210076540X/ref=as_li_tl?ie=UTF8&amp;camp=1642&amp;creative=6746&amp;creativeASIN=210076540X&amp;linkCode=as2&amp;tag=deslivrepourm-21&amp;linkId=a6c3ed7805af63613aaef46c12c5d31d%22">Machine Learning avec Scikit-Learn</a>),</li>
+<li>j&rsquo;ai finalement apprécié de travailler dans un <em>notebook</em> de <strong>Jupyter</strong>, il y a pas mal de fonctionnalités intéressantes lorsque l&rsquo;on fait du pas-à-pas avec son code,</li>
+</ul>
+<p>J&rsquo;ai maintenant hâte de continuer pour mieux comprendre le fonctionnement des algorithmes et comment les choisirs en fonction des besoins.</p>
+<p>A bientôt pour la suite :)</p>
+
+
+  </div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://www.bittenbypython.com/tags/scikit-learn/">scikit-learn</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://www.bittenbypython.com/posts/20180114_modeles_et_hyperparametres/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Modèles et hyperparamétres</span>
+  </a>
+  <a class="next" href="http://www.bittenbypython.com/posts/20171216-challenge/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Cheatsheet de challenge</span>
+  </a>
+</nav>
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Débuter en IA : challenge Titanic on twitter"
+        href="https://twitter.com/intent/tweet/?text=D%c3%a9buter%20en%20IA%20%3a%20challenge%20Titanic&amp;url=http%3a%2f%2fwww.bittenbypython.com%2fposts%2f20180104_titanic%2f&amp;hashtags=scikit-learn">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Débuter en IA : challenge Titanic on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.bittenbypython.com%2fposts%2f20180104_titanic%2f&amp;title=D%c3%a9buter%20en%20IA%20%3a%20challenge%20Titanic&amp;summary=D%c3%a9buter%20en%20IA%20%3a%20challenge%20Titanic&amp;source=http%3a%2f%2fwww.bittenbypython.com%2fposts%2f20180104_titanic%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Débuter en IA : challenge Titanic on reddit"
+        href="https://reddit.com/submit?url=http%3a%2f%2fwww.bittenbypython.com%2fposts%2f20180104_titanic%2f&title=D%c3%a9buter%20en%20IA%20%3a%20challenge%20Titanic">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Débuter en IA : challenge Titanic on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2fwww.bittenbypython.com%2fposts%2f20180104_titanic%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Débuter en IA : challenge Titanic on whatsapp"
+        href="https://api.whatsapp.com/send?text=D%c3%a9buter%20en%20IA%20%3a%20challenge%20Titanic%20-%20http%3a%2f%2fwww.bittenbypython.com%2fposts%2f20180104_titanic%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Débuter en IA : challenge Titanic on telegram"
+        href="https://telegram.me/share/url?text=D%c3%a9buter%20en%20IA%20%3a%20challenge%20Titanic&amp;url=http%3a%2f%2fwww.bittenbypython.com%2fposts%2f20180104_titanic%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2021 <a href="http://www.bittenbypython.com/">Bitten By Python</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+    menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Bitten By Python</title>
+    <link>http://www.bittenbypython.com/tags/</link>
+    <description>Recent content in Tags on Bitten By Python</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr-fr</language>
+    <lastBuildDate>Thu, 02 Sep 2021 09:31:35 +0200</lastBuildDate><atom:link href="http://www.bittenbypython.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>concurrence</title>
+      <link>http://www.bittenbypython.com/tags/concurrence/</link>
+      <pubDate>Thu, 02 Sep 2021 09:31:35 +0200</pubDate>
+      
+      <guid>http://www.bittenbypython.com/tags/concurrence/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>multithreading</title>
+      <link>http://www.bittenbypython.com/tags/multithreading/</link>
+      <pubDate>Thu, 02 Sep 2021 09:31:35 +0200</pubDate>
+      
+      <guid>http://www.bittenbypython.com/tags/multithreading/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>micropython</title>
+      <link>http://www.bittenbypython.com/tags/micropython/</link>
+      <pubDate>Fri, 24 Aug 2018 07:51:00 +0100</pubDate>
+      
+      <guid>http://www.bittenbypython.com/tags/micropython/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vim</title>
+      <link>http://www.bittenbypython.com/tags/vim/</link>
+      <pubDate>Sun, 28 Jan 2018 10:09:00 +0100</pubDate>
+      
+      <guid>http://www.bittenbypython.com/tags/vim/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jupyter</title>
+      <link>http://www.bittenbypython.com/tags/jupyter/</link>
+      <pubDate>Mon, 22 Jan 2018 18:16:00 +0100</pubDate>
+      
+      <guid>http://www.bittenbypython.com/tags/jupyter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tips</title>
+      <link>http://www.bittenbypython.com/tags/tips/</link>
+      <pubDate>Mon, 22 Jan 2018 18:16:00 +0100</pubDate>
+      
+      <guid>http://www.bittenbypython.com/tags/tips/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scikit-learn</title>
+      <link>http://www.bittenbypython.com/tags/scikit-learn/</link>
+      <pubDate>Sun, 14 Jan 2018 11:56:31 +0100</pubDate>
+      
+      <guid>http://www.bittenbypython.com/tags/scikit-learn/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
