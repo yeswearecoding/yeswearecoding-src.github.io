@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>multithreading on Bitten By Python</title>
+    <link>http://www.bittenbypython.com/tags/multithreading/</link>
+    <description>Recent content in multithreading on Bitten By Python</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr-fr</language>
+    <lastBuildDate>Thu, 02 Sep 2021 09:31:35 +0200</lastBuildDate><atom:link href="http://www.bittenbypython.com/tags/multithreading/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Programmation concurrente avec des goroutines</title>
+      <link>http://www.bittenbypython.com/posts/20210902_goroutines/</link>
+      <pubDate>Thu, 02 Sep 2021 09:31:35 +0200</pubDate>
+      
+      <guid>http://www.bittenbypython.com/posts/20210902_goroutines/</guid>
+      <description>Nouvelle année, nouveau challenge ! Ca fait pas mal de temps de je lorgne sur le Go (ou Golang) et ça y est, il est venu le temps de s&amp;rsquo;y mettre ! Avant cela, j&amp;rsquo;ai (un peu) mis à jour mon site et rajouter un lien pour ma page LinkedIn : n&amp;rsquo;hésitez pas à me suivre ou m&amp;rsquo;ajouter afin de recevoir les prochaines mises à jour 😊.
+Le Go (ou Golang) est un langage développé depuis quelques années désormais (plus de 10 ans) par une équipe de Google, et pas des débutants !</description>
+    </item>
+    
+  </channel>
+</rss>
