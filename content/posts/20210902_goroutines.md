@@ -71,7 +71,7 @@ func say(s string) {
 }
 
 func main() {
-	say("hello")
+	go say("hello")
 	fmt.Println("world !")
 	time.Sleep(500 * time.Millisecond)
 }
@@ -80,8 +80,8 @@ func main() {
 On obtient en sortie :
 
 ```bash
-hello
 world !
+hello
 ```
 
 Ah !!!!! Voilà ! On obtient bien ce que l'on souhaite en sortie mais c'est loin d'être optimal...
