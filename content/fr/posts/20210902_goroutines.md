@@ -5,7 +5,7 @@ tags: [concurrence, multithreading]
 date: 2021-09-02T09:31:35+02:00
 draft: false
 showToc: true
-TocOpen: false
+TocOpen: true
 ---
 
 Nouvelle année, nouveau challenge ! Ca fait pas mal de temps de je lorgne sur le Go (ou Golang) et ça y est, il est venu le temps de s'y mettre !

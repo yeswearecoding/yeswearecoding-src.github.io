@@ -1,17 +1,35 @@
 baseURL: "http://www.bittenbypython.com/"
-languageCode: "fr-fr"
+languageCode: "fr-FR"
 title: "Bitten By Python"
-paginate: 10
+pagination.pagerSize: 10
 theme: "PaperMod"
+
+defaultContentLanguage: fr
+defaultContentLanguageInSubdir: true
+languages:
+  fr:
+    contentDir: content/fr
+    disabled: false
+    languageCode: fr-FR
+    languageDirection: ltr
+    languageName: Français
+    title: Bitten By Python
+    weight: 1
+  en:
+    contentDir: content/en
+    disabled: true
+    languageCode: en-US
+    languageDirection: ltr
+    languageName: English
+    params:
+      subtitle: Reference, Tutorials, and Explanations
+    title: Project Documentation
+    weight: 2
 
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-
-googleAnalytics: "UA-111329786-1"
-
-
 
 params:
     env: production

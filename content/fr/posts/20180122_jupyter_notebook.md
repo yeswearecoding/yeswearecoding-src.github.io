@@ -44,7 +44,7 @@ Ce n'était pas bien compliqué ^^. N'oubliez d'ajouter les libraires dont vous 
 ## Démarrage
 
 Depuis le terminal, après avoir activer l'environnement virtuel, vous n'avez plus qu'à exécuter `jupyter notebook`. Cette commande va lancer un navigateur Web
-(ou ouvrir un nouvel onglet) où vous pourrez voir un petit navigateur de fichier (par défaut [localhost:8888](http://localhost:8888]). On va pouvoir maintenant créer un nouvel notebook en utilisant le menu en haut à droite `New -> Python 3`. Vous lancez ainsi un nouveau **kernel** de type *Python 3*. Si le précise, c'est que l'on peut en fait coder avec beaucoup d'autres langages
+(ou ouvrir un nouvel onglet) où vous pourrez voir un petit navigateur de fichier (par défaut [localhost:8888](http://localhost:8888). On va pouvoir maintenant créer un nouvel notebook en utilisant le menu en haut à droite `New -> Python 3`. Vous lancez ainsi un nouveau **kernel** de type *Python 3*. Si le précise, c'est que l'on peut en fait coder avec beaucoup d'autres langages
 via ces *kernels*. Vous trouverez ici la [liste de ces noyaux](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels).
 
 ## Utilisation

@@ -36,16 +36,34 @@ Je le reprend ici :
 
 Modèle | Hyperparamètre | Plage de données
  :-------: | :----------------: | :-----------------:
-**Régression linéaire** | fit_intercept<br>normalize | True / False<br>True / False
-**Ridge** | alpha<br>fit_intercept<br>normalize | 0.01, 0.1, 1.0, 10, 100<br>True / False<br>True / False
-**K-neighbors** | N_neighbors<br>p | 2, 4, 8, 16...<br>2,3
-**SVM** | C<br>gamma<br>class_weight | 0.001, 0.01...10...100...1000<br>Auto ou Random Search<br>Balanced, None
-**Régression logistique** | Penalty<br>C | L1 ou I2<br>0.001, 0.01...10...100
+**Régression linéaire** | fit_intercept | True / False
+**Régression linéaire** | normalize | True / False
+**Ridge** | alpha | 0.01, 0.1, 1.0, 10, 100
+**Ridge** | fit_intercept | True / False
+**Ridge** | normalize | True / False
+**K-neighbors** | N_neighbors | 2, 4, 8, 16...
+**K-neighbors** | p | 2,3
+**SVM** | C | 0.001, 0.01...10...100...1000
+**SVM** | gamma | Auto ou Random Search
+**SVM** | class_weight | Balanced, None
+**Régression logistique** | Penalty | L1 ou I2
+**Régression logistique** | C | 0.001, 0.01...10...100
 **Naive Bayes** | aucun | aucun
-**Lasso** | alpha<br>normalize | 0.1, 1.0, 10<br>True / False
-**Random Forest** | n_estimators<br>max_depth<br>min_samples_split<br>min_samples_leaf<br>max_features | 120, 300, 500, 800, 1200<br>5, 8, 15, 25, 30, None<br>1, 2, 5, 10, 15, 100<br>1, 2, 5, 10<br>Log2, sqrt, None
-**Xgboost** | eta<br>gamma<br>max_depth<br>min_child_weight<br>subsample<br>colsample_bytree<br>lambda<br>alpha | 0.01, 0.015, 0.025, 0.05, 0.1<br>0.05-0.1, 0.3, 0.5, 0.7, 0.9, 1.0<br>3, 5, 7, 9, 12, 15, 17, 25<br>1, 3, 5, 7<br>0.6, 0.7, 0.8, 0.9, 1.0<br>0.6, 0.7, 0.8, 0.9, 1.0<br>0.01-0.1, 1.0, Random Search<br>0, 0.1, 0.5, 1.0, Random Search
-
+**Lasso** | alpha | 0.1, 1.0, 10
+**Lasso** | normalize | True / False
+**Random Forest** | n_estimators | 120, 300, 500, 800, 1200
+**Random Forest** | max_depth | 5, 8, 15, 25, 30, None
+**Random Forest** | min_samples_split | 1, 2, 5, 10, 15, 100
+**Random Forest** | min_samples_leaf | 1, 2, 5, 10
+**Random Forest** | max_features | Log2, sqrt, None
+**Xgboost** | eta | 0.01, 0.015, 0.025, 0.05, 0.1
+**Xgboost** | gamma | 0.05-0.1, 0.3, 0.5, 0.7, 0.9, 1.0
+**Xgboost** | max_depth | 3, 5, 7, 9, 12, 15, 17, 25
+**Xgboost** | min_child_weight | 1, 3, 5, 7
+**Xgboost** | subsample | 0.6, 0.7, 0.8, 0.9, 1.0
+**Xgboost** | colsample_bytree | 0.6, 0.7, 0.8, 0.9, 1.0
+**Xgboost** | lambda | 0.01-0.1, 1.0, Random Search
+**Xgboost** | alpha | 0, 0.1, 0.5, 1.0, Random Search
 
 
 J'espère que ces petits récapitulatifs vous seront autant utiles qu'à moi ;-)
