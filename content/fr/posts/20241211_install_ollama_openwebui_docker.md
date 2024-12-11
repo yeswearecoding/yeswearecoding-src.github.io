@@ -9,6 +9,7 @@ Dans le cadre d’un projet personnel, je me suis équipé d’un GPU NVIDIA (un
 
 Pour utiliser facilement différent modèle, je m’appuie sur OpenWebUI (avec Ollama) ; comme l’installation peut être un peu épique, je récapitule les différentes étapes ici.
 
+![Image designed by author](/img/llm-desktop.png)
 
 ## Configuration utilisée
 
@@ -99,8 +100,6 @@ sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 |=========================================================================================|
 +-----------------------------------------------------------------------------------------+
 ```
-
-  
 
 ## Ollama et OpenWebUI dans docker-compose
 

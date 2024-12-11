@@ -17,13 +17,11 @@ languages:
     weight: 1
   en:
     contentDir: content/en
-    disabled: true
+    disabled: false
     languageCode: en-US
     languageDirection: ltr
     languageName: English
-    params:
-      subtitle: Reference, Tutorials, and Explanations
-    title: Project Documentation
+    title: Bitten By Python
     weight: 2
 
 enableRobotsTXT: true
@@ -48,7 +46,7 @@ params:
 
     homeInfoParams:
         Title: "Bitten By Python \U0001F44B"
-        Content: "Python, Go et autre"
+        Content: Python, Go, *etc.*
     
     socialIcons:
         - name: linkedin
