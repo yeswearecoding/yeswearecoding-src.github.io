@@ -16,10 +16,10 @@ To easily use different models, I rely on OpenWebUI (with Ollama). Since the ins
 On my PC, I have:
 
 - OS: Ubuntu 24.04 LTS ([Official page](https://ubuntu.com/download/desktop))
-- GPU: [NVIDIA RTX 3060](https://amzn.to/3D4dDuc) (affiliate link)
-- CPU: [AMD Ryzen 7 5700G](https://amzn.to/4gnUvq5) (affiliate link)
+- GPU: [NVIDIA RTX 3060](https://amzn.to/3OVHDvb) *(affiliate link)*
+- CPU: [AMD Ryzen 7 5700G](https://amzn.to/3ZWVOGD) *(affiliate link)*
 - RAM: 52 GB
-- Storage: [Samsung SSD 990 EVO 1TB](https://amzn.to/3D9ASmO) (affiliate link)
+- Storage: [Samsung SSD 990 EVO 1TB](https://amzn.to/4gF9b3Q) *(affiliate link)*
 
 This setup allows me to properly run `14B` models (around thirty *tokens/s*).
 
@@ -66,7 +66,7 @@ No particular difficulties here; just follow the documentation (and don’t forg
 
 ### Docker
 
-Follow the official documentation. I chose the method with `apt` repositories: [install-using-the-repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository). Don’t forget the post-installation steps: [linux-postinstall/](https://docs.docker.com/engine/install/linux-postinstall/) (to avoid using `sudo` for each Docker command).
+Follow the official documentation. I chose the method with `apt` repositories: [install-using-the-repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository). Don’t forget the post-installation steps: [linux-postinstall](https://docs.docker.com/engine/install/linux-postinstall/) (to avoid using `sudo` for each Docker command).
 
 ### NVIDIA Container Toolkit
 
