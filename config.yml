@@ -2,7 +2,7 @@ baseURL: "http://www.bittenbypython.com/"
 languageCode: "fr-FR"
 title: "Bitten By Python"
 pagination.pagerSize: 10
-theme: "PaperMod"
+theme: "hugo-theme-stack"
 
 defaultContentLanguage: fr
 defaultContentLanguageInSubdir: true
@@ -36,8 +36,8 @@ params:
     keywords: [Python, IA, Go, Golang]
     author: Gwenaël Nardin
     DateFormat: "2 Jan 2006"
-    defaultTheme: dark # dark, light
-    disableThemeToggle: true
+    defaultTheme: auto # dark, light
+    disableThemeToggle: false
     ShowReadingTime: false
     ShowShareButtons: true
     ShowPostNavLinks: true
