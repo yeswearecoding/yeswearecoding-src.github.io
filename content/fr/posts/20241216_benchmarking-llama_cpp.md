@@ -1,6 +1,7 @@
 ---
 title: "Benchmarking de GPU avec Llama.cpp"
 slug: benchmarking-llama-cpp
+categories: [ia, LLM]
 date: 2024-12-16T17:31:18+01:00
 draft: false
 ShowToc: true

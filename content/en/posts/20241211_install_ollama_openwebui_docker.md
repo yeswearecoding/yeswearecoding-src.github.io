@@ -1,6 +1,7 @@
 ---
 title: "Install Ollama and OpenWebUI on Ubuntu 24.04 with an NVIDIA RTX3060 GPU"
 slug: install_ollama_openwebui_ubuntu_nvidia
+categories: [ia, LLM]
 date: 2024-12-11T08:38:45+01:00
 draft: false
 ---
