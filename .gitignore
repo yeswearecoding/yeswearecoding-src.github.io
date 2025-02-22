@@ -1,1 +1,13 @@
-/resources
+# Ignorer les fichiers et dossiers spécifiques
+/public
+/node_modules
+/.hugo_build.lock
+/.vscode
+/.idea
+/.DS_Store
+/archetypes
+/content/en/posts
+/content/fr/posts
+/static
+/themes
+

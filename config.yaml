@@ -1,0 +1,184 @@
+baseURL: "http://www.bittenbypython.com/"
+languageCode: "fr-FR"
+title: "Bitten By Python"
+pagination.pagerSize: 10
+theme: "hugo-theme-stack"
+
+defaultContentLanguage: fr
+defaultContentLanguageInSubdir: true
+languages:
+  fr:
+    contentDir: content/fr
+    disabled: false
+    languageCode: fr-FR
+    languageDirection: ltr
+    languageName: Français
+    title: Bitten By Python
+    weight: 1
+  en:
+    contentDir: content/en
+    disabled: false
+    languageCode: en-US
+    languageDirection: ltr
+    languageName: English
+    title: Bitten By Python
+    weight: 2
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+params:
+    env: production
+    title: "Bitten By Python"
+    description: "Je partage mes connaissances avec vous"
+    # keywords: [Python, IA, Go, Golang]
+    author: 
+      name: Gwenaël Nardin
+      email: gwen.nardin@gmail.com
+    dateFormat: 
+      published: "2 Jan 2006"
+    defaultTheme: auto # dark, light
+    disableThemeToggle: false
+    ShowReadingTime: false
+    ShowShareButtons: true
+    ShowPostNavLinks: true
+    disableSpecial1stPost: true
+    showtoc: false
+    mainSections: "posts"
+
+    Sidebar:
+      avatar:
+        enabled: false
+
+    homeInfoParams:
+        Title: "Bitten By Python \U0001F44B"
+        Content: Python, Go, *etc.*
+
+    socialIcons:
+        - name: linkedin
+          url: "https://www.linkedin.com/in/gwenael-nardin/"
+        - name: github
+          url: "https://github.com/yeswearecoding"
+
+    header_image: "img/home-bg-jeep.jpg"
+    SEOTitle: "Bitten By Python"
+    slogan: "Python, Go, *etc.*"
+    upstreamAttribution: true
+
+    image_404: "img/404-bg.jpg"
+    title_404: "Vous êtes perdu :("
+    omit_categories: false
+
+    # leancloud storage for page view counter
+    # page_view_counter: false
+    # leancloud_app_id: ""
+    # leancloud_app_key: ""
+
+    # # algolia site search
+    # algolia_search: true
+    # algolia_appId: ""
+    # algolia_indexName: ""
+    # algolia_apiKey: ""
+
+    # Sidebar settings
+    sidebar_about_description: "Développeur de logiciels, passionné par l'open source et l'aventure"
+    sidebar_avatar: "img/avatar.png"      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+    featured_tags: true
+    featured_condition_size: 1
+
+    # Baidu Analytics
+    ba_track_id: ""
+
+    # We need a proxy to access Disqus api in China
+    # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
+    disqus_proxy: ""
+    disqus_site: ""
+
+    # Twikoo comments
+    # Follow https://twikoo.js.org/ to set up your own env_id
+    twikoo_env_id: ""
+
+    # Artalk comments
+    # Follow https://artalk.js.org/ to set up your own server
+    # artalk_enable: true
+    # artalk_server: "https://xxx.xxx.com"
+    # artalk_site: "xxx blog"
+
+    #Enable wechat pay & alipay to allow readers send reward money if they like the articles
+    # reward: true
+    # reward_guide = "Si cet article vous a été utile, vous pouvez me faire un don"
+
+    # friends: true
+    # bookmarks: false
+    # about_me: true
+
+    # Include any custom CSS and/or JS files, url or relative to /static folder
+    #custom_css = ["css/lightbox.css", "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css", "css/main.css"]
+    #custom_js = ["js/lightbox.js", "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js", "js/main.js"]
+
+    social:
+        rss: true
+        email: "gwen.nardin@gmail.com"
+        #facebook: "full profile url in facebook"
+        #googleplus: "full profile url in googleplus"
+        #twitter: "full profile url in twitter"
+        linkedin: "https://www.linkedin.com/in/gwenael-nardin/"
+        #stackoverflow: "https://stackoverflow.com/users/yourstackoverflowid"
+        #instagram: "full profile url in instagram"
+        github: "https://github.com/yeswearecoding"
+        #wechat: "your wechat qr code image"
+        #medium: "full profile url in medium"
+        #slack: "full workspace url in slack"
+        #pinterest: "full profile url in pinterest"
+        #reddit: "full profile url in reddit"
+        #gitlab: "full profile url in gitlab"
+        #mastodon: "full profile url in mastodon"
+        #keybase: "full profile url in keybase"
+        #xing: "https://www.xing.com/profile/yourxingid"
+        #git: "full profile url for git user"
+
+    # friend_link:
+    #     - title: "Linda's Blog"
+    #       href: "https://zhaozhihan.com"
+
+    # bookmark_link:
+    #     - title: "Martin Fowler"
+    #       href: "https://martinfowler.com"
+    #     - title: "ServiceMesher"
+    #       href: "http://www.servicemesher.com"
+    #     - title: "Pxhere"
+    #       href: "https://pxhere.com"
+    #     - title: "unsplash"
+    #       href: "https://unsplash.com"
+
+    addtional_menus:
+        - title: "ARCHIVE"
+          href: "/archive/"
+        - title: "NOTES"
+          href: "/notes/"
+        - title: "ABOUT"
+          href: "/about/"
+
+outputs:
+    home: ["HTML", "RSS"]
+
+# outputFormats:
+#     Algolia:
+#         baseName: "algolia"
+#         isPlainText: true
+#         mediaType: "application/json"
+#         notAlternative: true
+
+# algolia:
+#     vars: ["title", "summary", "date", "publishdate", "expirydate", "permalink"]
+#     params: ["categories", "tags"]
+
+markup:
+    tableOfContents:
+        endLevel: 2
+        startLevel: 1
+    highlight:
+        style: "dracula"
