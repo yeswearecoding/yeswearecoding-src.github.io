@@ -33,7 +33,7 @@ params:
     env: production
     title: "Bitten By Python"
     description: "Je partage mes connaissances avec vous"
-    keywords: [Python, IA, Go, Golang]
+    # keywords: [Python, IA, Go, Golang]
     author: 
       name: Gwenaël Nardin
       email: gwen.nardin@gmail.com
