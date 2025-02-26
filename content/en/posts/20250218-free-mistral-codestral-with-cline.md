@@ -1,9 +1,10 @@
+---
 title: "Using Mistral Codestral for Free"
-date: 2025-02-26T15:55:45+01:00
+slug: "free-mistral-codestral"
+date: 2025-02-18T18:54:43+01:00
 draft: false
 tags: ["ai", "LLM"]
 categories: ["ai"]
-slug: "free-mistral-codestral"
 ---
 
 Hello! 👋

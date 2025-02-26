@@ -34,11 +34,12 @@ params:
     title: "Bitten By Python"
     description: "Je partage mes connaissances avec vous"
     # keywords: [Python, IA, Go, Golang]
-    author: 
+    author:
       name: Gwenaël Nardin
       email: gwen.nardin@gmail.com
-    dateFormat: 
+    date:
       published: "2 Jan 2006"
+    # article.dateFormat : "2 Jan 2006"
     defaultTheme: auto # dark, light
     disableThemeToggle: false
     ShowReadingTime: false
