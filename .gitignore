@@ -6,8 +6,6 @@
 /.idea
 /.DS_Store
 /archetypes
-/content/en/posts
-/content/fr/posts
 /static
 /themes
-
+.DS_Store
